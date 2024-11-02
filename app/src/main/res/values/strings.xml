@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">NutriFit</string>
+    <string name="title_home">Home</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="label_login">Login</string>
+    <string name="label_username_login">Masukkan Username...</string>
+    <string name="label_password_login">Masukkan Password...</string>
+    <string name="text_login_button">Login</string>
+    <string name="label_register">Don\'t have an account ? Register here</string>
+    <string name="confirm_password">Masukkan Konfirmasi Password</string>
+</resources>
