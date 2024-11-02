@@ -12,7 +12,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register"
+        android:text="@string/register"
         android:textColor="@color/primary"
         android:textSize="40sp"
         android:textStyle="bold"
@@ -99,7 +99,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/primary"
 
-        android:text="Register"
+        android:text="@string/register_"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/tv_confirm_password"
         app:layout_constraintHorizontal_bias="0.0"
@@ -111,7 +111,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:text="Already have an account ? Login Here"
+        android:text="@string/already_have_an_account_login_here"
         android:textSize="14sp"
 
         app:layout_constraintBottom_toBottomOf="parent"

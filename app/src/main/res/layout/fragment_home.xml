@@ -11,7 +11,7 @@
         android:id="@+id/label_inputdata"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Input Data Diri"
+        android:text="@string/input_data_diri"
         android:textSize="20sp"
         android:textStyle="bold"
 
@@ -29,7 +29,7 @@
         android:layout_marginTop="12dp"
         android:textSize="16sp"
 
-        android:text="Input data diri dibawah untuk menampilkan rekomendasi makanan untuk diet"
+        android:text="@string/input_data_diri_dibawah_untuk_menampilkan_rekomendasi_makanan_untuk_diet"
         app:layout_constraintEnd_toEndOf="@+id/label_inputdata"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/label_inputdata"
@@ -40,7 +40,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Masukkan Usia"
+        android:hint="@string/masukkan_usia"
         android:layout_marginTop="8dp"
 
 
@@ -64,7 +64,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Masukkan Tinggi Badan"
+        android:hint="@string/masukkan_tinggi_badan"
         android:layout_marginTop="8dp"
 
 
@@ -88,7 +88,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Masukkan Berat Badan"
+        android:hint="@string/masukkan_berat_badan"
         android:layout_marginTop="8dp"
 
 
@@ -113,7 +113,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/primary"
 
-        android:text="Search"
+        android:text="@string/search"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/tv_weight"
         app:layout_constraintHorizontal_bias="0.0"
@@ -125,7 +125,7 @@
         android:id="@+id/label_rekomendasi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Rekomendasi Makanan"
+        android:text="@string/rekomendasi_makanan"
         android:textSize="20sp"
         android:textStyle="bold"
 
