@@ -2,7 +2,7 @@
     <string name="app_name">NutriFit</string>
     <string name="title_home">Home</string>
     <string name="title_profile">Profile</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_notifications">Article</string>
     <string name="label_login">Login</string>
     <string name="label_username_login">Masukkan Username</string>
     <string name="label_password_login">Masukkan Password</string>
@@ -12,11 +12,16 @@
     <string name="input_data_diri">Input Data Diri</string>
     <string name="input_data_diri_dibawah_untuk_menampilkan_rekomendasi_makanan_untuk_diet">Input data diri dibawah untuk menampilkan rekomendasi makanan untuk diet</string>
     <string name="masukkan_usia">Masukkan Usia</string>
-    <string name="masukkan_tinggi_badan">Masukkan Tinggi Badan</string>
-    <string name="masukkan_berat_badan">Masukkan Berat Badan</string>
-    <string name="search">Search</string>
+    <string name="masukkan_tinggi_badan">Height (cm)</string>
+    <string name="masukkan_berat_badan">Weight (kg)</string>
+    <string name="search">Search Reccomendation</string>
     <string name="rekomendasi_makanan">Rekomendasi Makanan</string>
     <string name="register">Register</string>
     <string name="register_">Register</string>
     <string name="already_have_an_account_login_here">Already have an account ? Login Here</string>
+
+    <string-array name="gender">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
 </resources>
