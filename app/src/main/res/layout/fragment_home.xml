@@ -1,164 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="12dp"
+    android:padding="30dp"
+    android:orientation="vertical"
     tools:context=".ui.home.HomeFragment">
 
     <TextView
-        android:id="@+id/label_inputdata"
+        android:id="@+id/heading_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/input_data_diri"
-        android:textSize="20sp"
+        android:text="@string/heading_home"
+        android:textColor="@color/secondary"
+        android:textSize="22sp"
         android:textStyle="bold"
-        android:layout_marginTop="10dp"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.018" />
+        android:fontFamily="@font/poppins_bold"
+        android:layout_marginTop="10dp" />
 
     <TextView
-        android:id="@+id/label_desc"
+        android:id="@+id/desc_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:textSize="16sp"
-
-        android:text="@string/input_data_diri_dibawah_untuk_menampilkan_rekomendasi_makanan_untuk_diet"
-        app:layout_constraintEnd_toEndOf="@+id/label_inputdata"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/label_inputdata"
-        app:layout_constraintTop_toBottomOf="@+id/label_inputdata" />
+        android:layout_marginTop="5dp"
+        android:textSize="14sp"
+        android:text="@string/desc_home"
+        android:fontFamily="@font/poppins"
+        android:layout_below="@+id/heading_home"/>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tv_age"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/label_age"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/masukkan_usia"
-        android:layout_marginTop="8dp"
-
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/label_desc"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/label_desc"
-        app:layout_constraintTop_toBottomOf="@id/label_desc"
-        app:layout_constraintVertical_bias="0.004"
-        app:startIconDrawable="@drawable/ic_person_fill">
+        android:hint="@string/age"
+        android:layout_below="@+id/desc_home"
+        android:layout_marginTop="10dp">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tv_age_edittext"
+            android:id="@+id/field_age"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins"
+            android:textSize="14sp"
+            android:paddingVertical="12dp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tv_height"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/row"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:hint="@string/masukkan_tinggi_badan"
-        app:layout_constraintTop_toBottomOf="@id/tv_age"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/tv_weight"
-        app:startIconDrawable="@drawable/ic_person_fill">
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_below="@+id/label_age"
+        android:layout_marginTop="10dp">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tv_height_edittext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/label_height"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:hint="@string/height">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/field_height"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins"
+                android:inputType="number"
+                android:paddingVertical="12dp"
+                android:textSize="14sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:id="@+id/label_weight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:hint="@string/weight">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/field_weight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins"
+                android:inputType="number"
+                android:paddingVertical="12dp"
+                android:textSize="14sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tv_weight"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="8dp"
-        android:hint="@string/masukkan_berat_badan"
-        app:layout_constraintTop_toBottomOf="@id/tv_age"
-        app:layout_constraintStart_toEndOf="@id/tv_height"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:startIconDrawable="@drawable/ic_person_fill">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tv_weight_edittext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tv_gender"
+        android:id="@+id/label_gender"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/tv_weight"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/tv_height"
-        app:layout_constraintTop_toBottomOf="@+id/tv_weight"
-        app:layout_constraintVertical_bias="0.019">
+        android:layout_below="@+id/row"
+        android:layout_marginTop="10dp">
 
         <AutoCompleteTextView
-            android:id="@+id/tv_gender_edittext"
+            android:id="@+id/field_gender"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:fontFamily="@font/poppins"
             android:inputType="none"
-            android:text="Choose Your Gender" />
-
+            android:hint="@string/gender"
+            android:paddingVertical="12dp"
+            android:textSize="14sp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/primary"
-
-        android:text="@string/search"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/tv_gender"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/tv_gender"
-        app:layout_constraintTop_toBottomOf="@id/tv_gender"
-        app:layout_constraintVertical_bias="0.030" />
+        android:backgroundTint="@color/secondary"
+        android:text="@string/btn_search"
+        android:paddingVertical="12dp"
+        android:fontFamily="@font/poppins"
+        android:layout_marginTop="10dp"
+        app:cornerRadius="30dp"
+        android:layout_below="@+id/label_gender"/>
 
     <TextView
-        android:id="@+id/label_rekomendasi"
+        android:id="@+id/heading_recommendation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/rekomendasi_makanan"
+        android:text="@string/heading_recommendation"
+        android:textColor="@color/secondary"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/poppins_bold"
         android:textSize="20sp"
-        android:textStyle="bold"
+        android:layout_below="@+id/btn_search"/>
 
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/btn_search"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/btn_search"
-        app:layout_constraintTop_toBottomOf="@id/btn_search"
-        app:layout_constraintVertical_bias="0.045" />
+    <TextView
+        android:id="@+id/desc_recommendation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/desc_recommendation"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/poppins"
+        android:textSize="14sp"
+        android:layout_below="@+id/heading_recommendation"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_food"
+        android:id="@+id/recyclerview_food"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingVertical="20dp"
+        android:layout_below="@+id/desc_recommendation"/>
 
-        android:layout_marginTop="24dp"
-        app:layout_constraintEnd_toEndOf="@id/label_rekomendasi"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/label_rekomendasi"
-        app:layout_constraintTop_toBottomOf="@id/label_rekomendasi" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

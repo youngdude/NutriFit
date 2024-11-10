@@ -1,27 +1,43 @@
 <resources>
     <string name="app_name">NutriFit</string>
+
+    // bottom navigation
     <string name="title_home">Home</string>
     <string name="title_profile">Profile</string>
     <string name="title_notifications">Article</string>
-    <string name="label_login">Login</string>
-    <string name="label_username_login">Masukkan Username</string>
-    <string name="label_password_login">Masukkan Password</string>
-    <string name="text_login_button">Login</string>
-    <string name="label_register">Don\'t have an account ? Register here</string>
-    <string name="confirm_password">Masukkan Konfirmasi Password</string>
-    <string name="input_data_diri">Input Data Diri</string>
-    <string name="input_data_diri_dibawah_untuk_menampilkan_rekomendasi_makanan_untuk_diet">Input data diri dibawah untuk menampilkan rekomendasi makanan untuk diet</string>
-    <string name="masukkan_usia">Masukkan Usia</string>
-    <string name="masukkan_tinggi_badan">Height (cm)</string>
-    <string name="masukkan_berat_badan">Weight (kg)</string>
-    <string name="search">Search Reccomendation</string>
-    <string name="rekomendasi_makanan">Rekomendasi Makanan</string>
-    <string name="register">Register</string>
-    <string name="register_">Register</string>
-    <string name="already_have_an_account_login_here">Already have an account ? Login Here</string>
+
+    // dashboard
+    <string name="heading_home">Personal Data</string>
+    <string name="desc_home">Enter your personal data to get recommendations for healthy foods for your diet</string>
+    <string name="age">Enter your age</string>
+    <string name="height">Enter your height (cm)</string>
+    <string name="weight">Enter your weight (kg)</string>
+    <string name="gender">Choose your gender</string>
+    <string name="btn_search">Search Recomendation</string>
+    <string name="heading_recommendation">Food Recommendation</string>
+    <string name="desc_recommendation">Based on the personal data you entered, here are our food recommendations</string>
 
     <string-array name="gender">
         <item>Male</item>
         <item>Female</item>
     </string-array>
+
+    // register and login
+    <string name="register">Create Account</string>
+    <string name="login">Login Page</string>
+
+    <string name="btn_register">Register</string>
+    <string name="btn_login">Login</string>
+
+    <string name="username">Enter your username</string>
+    <string name="password">Enter your password</string>
+    <string name="confirm_password">Confirm your password</string>
+
+    <string name="error_field_username">Username is required</string>
+    <string name="error_field_password">Password is required</string>
+    <string name="error_field_cpassword">Confirm password doesn\'t match</string>
+    <string name="error_field_min_length">Password must be at least 6 characters</string>
+
+    <string name="have_account">Already have an account?</string>
+    <string name="dont_have_account">Don\'t have an account?</string>
 </resources>

@@ -14,15 +14,13 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onResume() {
         super.onResume()
         val gender = resources.getStringArray(R.array.gender)
         val arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, gender)
-        binding.tvGenderEdittext.setAdapter(arrayAdapter)
+        binding.fieldGender.setAdapter(arrayAdapter)
     }
 
     override fun onCreateView(
