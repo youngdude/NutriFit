@@ -4,7 +4,7 @@
     // bottom navigation
     <string name="title_home">Home</string>
     <string name="title_profile">Profile</string>
-    <string name="title_notifications">Article</string>
+    <string name="title_article">Article</string>
 
     // dashboard
     <string name="heading_home">Personal Data</string>
@@ -40,4 +40,11 @@
 
     <string name="have_account">Already have an account?</string>
     <string name="dont_have_account">Don\'t have an account?</string>
+
+    // artcle
+    <string name="title_item_article">Title Article</string>
+    <string name="desc_item_article">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for \'lorem ipsum\' will uncover many web sites still in their infancy.</string>
+    <string name="heading_article">News Article</string>
+    <string name="desc_article">a collection of healthy food recommendation articles tailored to support your diet goals</string>
+
 </resources>
