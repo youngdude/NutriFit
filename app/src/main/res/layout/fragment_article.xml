@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.article.ArticleFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="30dp">
+
+        <TextView
+            android:id="@+id/heading_article"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/heading_article"
+            android:textColor="@color/secondary"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/poppins_bold"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/desc_article"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textSize="14sp"
+            android:text="@string/desc_article"
+            android:fontFamily="@font/poppins"/>
+
+        <ProgressBar
+            android:id="@+id/progressBarArticle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_article"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            tools:listitem="@layout/article_item"/>
+
+    </LinearLayout>
+</ScrollView>

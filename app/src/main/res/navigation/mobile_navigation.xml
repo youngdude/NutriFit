@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/homeFragment">
 
     <fragment
-        android:id="@+id/navigation_home"
+        android:id="@+id/homeFragment"
         android:name="com.example.nutrifit.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_profile"
+        android:id="@+id/profileFragment"
         android:name="com.example.nutrifit.ui.profile.ProfileFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.nutrifit.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/articleFragment"
+        android:name="com.example.nutrifit.ui.article.ArticleFragment"
+        android:label="@string/title_article"
+        tools:layout="@layout/fragment_article" />
 </navigation>
