@@ -40,4 +40,17 @@
 
     <string name="have_account">Already have an account?</string>
     <string name="dont_have_account">Don\'t have an account?</string>
+
+
+    // profile
+    <string name="label_name">Name</string>
+    <string name="field_name">Enter your name</string>
+    <string name="label_bio">Bio</string>
+    <string name="field_bio">Enter your description</string>
+    <string name="label_email">Email</string>
+    <string name="field_email">Enter your email</string>
+    <string name="label_address">Address</string>
+    <string name="field_address">Enter your Address</string>
+    <string name="label_btn_save">Save</string>
+
 </resources>
