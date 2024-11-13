@@ -18,8 +18,8 @@
         tools:layout="@layout/fragment_profile" />
 
     <fragment
-        android:id="@+id/articleFragment"
-        android:name="com.example.nutrifit.ui.article.ArticleFragment"
-        android:label="@string/title_article"
-        tools:layout="@layout/fragment_article" />
+        android:id="@+id/yourMenuFragment"
+        android:name="com.example.nutrifit.ui.yourMenu.YourMenuFragment"
+        android:label="@string/title_your_menu"
+        tools:layout="@layout/fragment_your_menu" />
 </navigation>
