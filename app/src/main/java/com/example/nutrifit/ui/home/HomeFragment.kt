@@ -18,8 +18,8 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        val gender = resources.getStringArray(R.array.gender)
-        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, gender)
+        val weight = resources.getStringArray(R.array.weight_item)
+        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, weight)
         binding.fieldGender.setAdapter(arrayAdapter)
     }
 
