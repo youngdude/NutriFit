@@ -48,4 +48,16 @@
     <string name="desc_your_menu">a collection of healthy food recommendation articles tailored to support your diet goals</string>
     <string name="category_your_menu">Category Menu</string>
 
+    // profile
+    <string name="label_name">Name</string>
+    <string name="field_name">Enter your name</string>
+    <string name="label_bio">Bio</string>
+    <string name="field_bio">Enter your bio</string>
+    <string name="label_email">Email</string>
+    <string name="field_email">Enter your email</string>
+    <string name="label_address">Address</string>
+    <string name="field_address">Enter your address</string>
+    <string name="btn_save">Save</string>
+    <string name="btn_cancel">Cancel</string>
+
 </resources>

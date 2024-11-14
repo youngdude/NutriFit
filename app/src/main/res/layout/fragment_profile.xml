@@ -7,9 +7,9 @@
     tools:context=".ui.profile.ProfileFragment">
 
     <RelativeLayout
-        android:id="@+id/rl_top"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp">
 
         <ImageView
             android:id="@+id/top_background"
@@ -22,13 +22,14 @@
             android:layout_height="wrap_content"
             android:thumb="@drawable/thumb"
             app:track="@drawable/track"
-            android:layout_marginLeft="300dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="30dp"
             android:layout_marginTop="14dp" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
-            android:layout_width="140dp"
-            android:layout_height="140dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_centerHorizontal="true"
             app:civ_border_width="2dp"
             android:layout_below="@+id/top_background"
@@ -45,21 +46,13 @@
             android:layout_marginEnd="20dp"
             android:layout_marginTop="15dp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/label_name"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:id="@+id/label_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:startIconDrawable="@drawable/ic_person_fill"
-                app:endIconDrawable="@drawable/ic_edit"
-                app:endIconMode="custom">
+                android:layout_marginTop="15dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/field_name"
@@ -71,15 +64,8 @@
                     android:hint="@string/field_name"
                     android:fontFamily="@font/poppins"
                     android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/label_bio"
-                android:textSize="16sp"
-                android:layout_marginTop="20dp"
-                android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -87,28 +73,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:startIconDrawable="@drawable/ic_desc"
-                app:endIconDrawable="@drawable/ic_edit"
-                app:endIconMode="custom">
+                android:layout_marginTop="15dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/field_bio"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
+                    android:layout_height="wrap_content"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="12dp"
                     android:textSize="14sp"
                     android:hint="@string/field_bio"
                     android:fontFamily="@font/poppins"
                     android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/label_email"
-                android:textSize="16sp"
-                android:layout_marginTop="20dp"
-                android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -116,8 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:startIconDrawable="@drawable/ic_email"
-                app:endIconDrawable="@drawable/ic_edit"
-                app:endIconMode="custom">
+                android:layout_marginTop="15dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/field_email"
@@ -129,15 +106,8 @@
                     android:hint="@string/field_email"
                     android:fontFamily="@font/poppins"
                     android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/label_address"
-                android:textSize="16sp"
-                android:layout_marginTop="20dp"
-                android:textStyle="bold" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -145,8 +115,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:startIconDrawable="@drawable/ic_home"
-                app:endIconDrawable="@drawable/ic_edit"
-                app:endIconMode="custom">
+                android:layout_marginTop="15dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/field_address"
@@ -169,7 +138,16 @@
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/poppins"
                 app:cornerRadius="30dp"
-                android:text="@string/label_btn_save"/>
+                android:text="@string/btn_save"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/primary"
+                android:fontFamily="@font/poppins"
+                app:cornerRadius="30dp"
+                android:text="@string/btn_cancel"/>
 
         </LinearLayout>
 
