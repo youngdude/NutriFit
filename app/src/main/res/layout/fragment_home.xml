@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".ui.home.HomeFragment">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="top"
         android:padding="30dp">
 
         <TextView
@@ -29,82 +30,13 @@
             android:layout_marginTop="5dp"
             android:textSize="14sp"
             android:text="@string/desc_home"
-            android:fontFamily="@font/poppins"
-            android:layout_below="@+id/heading_home"/>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:id="@+id/label_age"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/age"
-            android:layout_below="@+id/desc_home"
-            android:layout_marginTop="10dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/field_age"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppins"
-                android:textSize="14sp"
-                android:paddingVertical="12dp"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <LinearLayout
-            android:id="@+id/row"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_below="@+id/label_age"
-            android:layout_marginTop="10dp">
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/label_height"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="1"
-                android:hint="@string/height">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/field_height"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins"
-                    android:inputType="number"
-                    android:paddingVertical="12dp"
-                    android:textSize="14sp"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/label_weight"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:hint="@string/weight">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/field_weight"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins"
-                    android:inputType="number"
-                    android:paddingVertical="12dp"
-                    android:textSize="14sp"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </LinearLayout>
+            android:fontFamily="@font/poppins"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/label_gender"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/row"
             android:layout_marginTop="10dp">
 
             <AutoCompleteTextView
@@ -118,6 +50,24 @@
                 android:textSize="14sp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/label_target"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <AutoCompleteTextView
+                android:id="@+id/field_target"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/poppins"
+                android:inputType="none"
+                android:hint="@string/target"
+                android:paddingVertical="12dp"
+                android:textSize="14sp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_search"
             android:layout_width="match_parent"
@@ -127,37 +77,7 @@
             android:paddingVertical="12dp"
             android:fontFamily="@font/poppins"
             android:layout_marginTop="10dp"
-            app:cornerRadius="30dp"
-            android:layout_below="@+id/label_gender"/>
-
-        <TextView
-            android:id="@+id/heading_recommendation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/heading_recommendation"
-            android:textColor="@color/secondary"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="10dp"
-            android:fontFamily="@font/poppins_bold"
-            android:textSize="20sp"
-            android:layout_below="@+id/btn_search"/>
-
-        <TextView
-            android:id="@+id/desc_recommendation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/desc_recommendation"
-            android:layout_marginBottom="10dp"
-            android:fontFamily="@font/poppins"
-            android:textSize="14sp"
-            android:layout_below="@+id/heading_recommendation"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview_food"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingVertical="20dp"
-            android:layout_below="@+id/desc_recommendation"/>
-    </RelativeLayout>
+            app:cornerRadius="30dp"/>
+    </LinearLayout>
 
 </ScrollView>
