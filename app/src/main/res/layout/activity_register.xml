@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:padding="30dp"
     android:orientation="vertical"
-    android:background="@drawable/bg_regis_light"
+    android:background="@drawable/bg__register"
     tools:context=".ui.register.RegisterActivity">
 
     <ScrollView

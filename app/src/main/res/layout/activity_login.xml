@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:padding="30dp"
     android:orientation="vertical"
-    android:background="@drawable/bg_login_light"
+    android:background="@drawable/bg__login"
     tools:context=".ui.login.LoginActivity">
 
     <ScrollView
