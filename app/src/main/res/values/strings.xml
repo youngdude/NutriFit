@@ -12,14 +12,32 @@
     <string name="age">Enter your age</string>
     <string name="height">Enter your height (cm)</string>
     <string name="weight">Enter your weight (kg)</string>
-    <string name="diet_target">Your Diet Target</string>
+    <string name="diet_target">Choose Your Diet Target</string>
+    <string name="gender">Choose your gender</string>
+    <string name="activity">Choose your Activity Level</string>
     <string name="btn_search">Get My Menu</string>
     <string name="heading_recommendation">Food Recommendation</string>
     <string name="desc_recommendation">Based on the personal data you entered, here are our food recommendations</string>
 
-    <string-array name="weight_item">
-        <item>1-5 Kg</item>
-        <item>5-10 Kg</item>
+    <string-array name="target">
+        <item>1 Kg</item>
+        <item>2 Kg</item>
+        <item>3 Kg</item>
+        <item>4 Kg</item>
+        <item>5 Kg</item>
+    </string-array>
+
+    <string-array name="gender">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+
+    <string-array name="level">
+        <item>InActive</item>
+        <item>Lightly Active</item>
+        <item>Moderately Active</item>
+        <item>Very Active</item>
+        <item>Extra Active</item>
     </string-array>
 
     // register and login
