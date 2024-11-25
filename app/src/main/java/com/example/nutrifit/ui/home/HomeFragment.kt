@@ -27,17 +27,8 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
-
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-
-        val root: View = binding.root
-
-        homeViewModel.text.observe(viewLifecycleOwner) {
-
-        }
-        return root
+        _binding = FragmentHomeBinding.inflate(layoutInflater)
+        return binding.root
     }
 
     override fun onDestroyView() {

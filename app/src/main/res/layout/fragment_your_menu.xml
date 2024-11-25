@@ -48,10 +48,20 @@
             android:layout_centerInParent="true"
             android:layout_marginTop="20dp"/>
 
+        <TextView
+            android:id="@+id/label_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/primary"
+            android:fontFamily="@font/poppins_bold"
+            android:paddingVertical="20dp" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_your_menu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/label_category"
             tools:listitem="@layout/your_menu_item" />
 
     </RelativeLayout>
