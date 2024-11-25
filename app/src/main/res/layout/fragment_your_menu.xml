@@ -10,7 +10,7 @@
         android:id="@+id/heading_your_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/heading_your_menu"
+        android:text="@string/heading_menu"
         android:textColor="@color/secondary"
         android:textSize="22sp"
         android:textStyle="bold"
@@ -25,7 +25,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="20dp"
         android:textSize="14sp"
-        android:text="@string/desc_your_menu"
+        android:text="@string/desc_menu"
         android:fontFamily="@font/poppins"/>
 
     <View
@@ -34,35 +34,20 @@
         android:layout_below="@+id/desc_your_menu"
         android:background="@color/primary"/>
 
-    <RelativeLayout
+    <ProgressBar
+        android:id="@+id/progressbar_your_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="20dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview_your_menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/desc_your_menu"
-        android:gravity="center">
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/desc_your_menu"
+        tools:listitem="@layout/your_menu_item" />
 
-        <ProgressBar
-            android:id="@+id/progressbar_your_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="20dp"/>
-
-        <TextView
-            android:id="@+id/label_category"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textColor="@color/primary"
-            android:fontFamily="@font/poppins_bold"
-            android:paddingVertical="20dp" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview_your_menu"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/label_category"
-            tools:listitem="@layout/your_menu_item" />
-
-    </RelativeLayout>
 </RelativeLayout>

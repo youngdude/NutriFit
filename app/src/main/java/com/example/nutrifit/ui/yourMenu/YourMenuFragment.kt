@@ -15,6 +15,7 @@ class YourMenuFragment : Fragment() {
 
     private var _binding: FragmentYourMenuBinding? = null
     private val binding get() = _binding!!
+
     private lateinit var yourMenuAdapter: YourMenuAdapter
 
     override fun onCreateView(
@@ -32,41 +33,38 @@ class YourMenuFragment : Fragment() {
         binding.progressbarYourMenu.visibility = View.VISIBLE
 
         val yourMenus = listOf(
-            YourMenu("Breakfast", "Healthy Oatmeal with Fruits", "A nutritious start to your day.", R.drawable.default_food),
-            YourMenu("Breakfast", "Avocado Toast", "A healthy and tasty breakfast.", R.drawable.default_food),
-            YourMenu("Breakfast", "Scrambled Eggs with Toast", "A classic breakfast to energize your morning.", R.drawable.default_food),
-            YourMenu("Lunch", "Grilled Chicken Salad", "High-protein, low-calorie meal.", R.drawable.default_food),
-            YourMenu("Lunch", "Vegetable Stir Fry", "A healthy and colorful lunch choice.", R.drawable.default_food),
-            YourMenu("Lunch", "Chicken Wrap", "A quick and nutritious meal.", R.drawable.default_food),
-            YourMenu("Dinner", "Steamed Fish and Vegetables", "Light and healthy dinner option.", R.drawable.default_food),
-            YourMenu("Dinner", "Spaghetti with Tomato Sauce", "A hearty meal for dinner.", R.drawable.default_food),
-            YourMenu("Dinner", "Grilled Salmon with Lemon", "A perfect dinner with omega-3.", R.drawable.default_food)
+            YourMenu.MenuItem("Breakfast", "Healthy Oatmeal with Fruits", "A nutritious start to your day.", R.drawable.default_food),
+            YourMenu.MenuItem("Breakfast", "Avocado Toast", "A healthy and tasty breakfast.", R.drawable.default_food),
+            YourMenu.MenuItem("Breakfast", "Scrambled Eggs with Toast", "A classic breakfast to energize your morning.", R.drawable.default_food),
+
+            YourMenu.MenuItem("Lunch", "Grilled Chicken Salad", "High-protein, low-calorie meal.", R.drawable.default_food),
+            YourMenu.MenuItem("Lunch", "Vegetable Stir Fry", "A healthy and colorful lunch choice.", R.drawable.default_food),
+            YourMenu.MenuItem("Lunch", "Chicken Wrap", "A quick and nutritious meal.", R.drawable.default_food),
+
+            YourMenu.MenuItem("Dinner", "Steamed Fish and Vegetables", "Light and healthy dinner option.", R.drawable.default_food),
+            YourMenu.MenuItem("Dinner", "Spaghetti with Tomato Sauce", "A hearty meal for dinner.", R.drawable.default_food),
+            YourMenu.MenuItem("Dinner", "Grilled Salmon with Lemon", "A perfect dinner with omega-3.", R.drawable.default_food)
         )
 
-        val groupedMenus = yourMenus.groupBy { it.category }
+        val limitedMenus = mutableListOf<YourMenu>()
+        val categories = listOf("Breakfast", "Lunch", "Dinner")
 
-        val limitedMenus = groupedMenus.flatMap { entry ->
-            entry.value.take(3)
+        categories.forEach { category ->
+            limitedMenus.add(YourMenu.CategoryLabel(category))
+
+            yourMenus.filterIsInstance<YourMenu.MenuItem>()
+                .filter { menuItem -> menuItem.category == category }
+                .take(2)
+                .forEach { limitedMenus.add(it) }
         }
 
-        if (yourMenus.isNotEmpty()) {
-            binding.labelCategory.text = yourMenus[0].category
-        }
-
-        yourMenuAdapter = YourMenuAdapter(yourMenus)
+        yourMenuAdapter = YourMenuAdapter(limitedMenus)
         binding.recyclerviewYourMenu.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = yourMenuAdapter
         }
 
         view.postDelayed({
-            val layoutManager = LinearLayoutManager(context)
-            binding.recyclerviewYourMenu.layoutManager = layoutManager
-            binding.recyclerviewYourMenu.setHasFixedSize(true)
-
-            yourMenuAdapter = YourMenuAdapter(limitedMenus)
-            binding.recyclerviewYourMenu.adapter = yourMenuAdapter
-
             binding.progressbarYourMenu.visibility = View.GONE
         }, 1000)
     }

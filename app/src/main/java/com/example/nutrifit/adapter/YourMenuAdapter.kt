@@ -8,26 +8,25 @@ import com.example.nutrifit.databinding.CategoryItemBinding
 import com.example.nutrifit.databinding.YourMenuItemBinding
 
 class YourMenuAdapter(private val yourMenus: List<YourMenu>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    companion object {
-        private const val VIEW_TYPE_CATEGORY = 0
-        private const val VIEW_TYPE_ITEM = 1
-    }
 
     override fun getItemViewType(position: Int): Int {
-        return if (yourMenus[position].isCategory) VIEW_TYPE_CATEGORY else VIEW_TYPE_ITEM
+        return when (yourMenus[position]) {
+            is YourMenu.CategoryLabel -> VIEW_TYPE_CATEGORY
+            is YourMenu.MenuItem -> VIEW_TYPE_ITEM
+        }
     }
 
     class CategoryViewHolder(private val binding: CategoryItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(yourMenu: YourMenu) {
-            binding.categoryYourMenu.text = yourMenu.category
+        fun bind(categoryLabel: YourMenu.CategoryLabel) {
+            binding.tvCategoryLabel.text = categoryLabel.category
         }
     }
 
     class MenuItemViewHolder(private val binding: YourMenuItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(yourMenu: YourMenu) {
-            binding.titleYourMenu.text = yourMenu.title
-            binding.descYourMenu.text = yourMenu.description
-            binding.imageYourMenu.setImageResource(yourMenu.imageResId)
+        fun bind(menu: YourMenu.MenuItem) {
+            binding.titleYourMenu.text = menu.title
+            binding.descYourMenu.text = menu.description
+            binding.imageYourMenu.setImageResource(menu.imageResId)
         }
     }
 
@@ -45,10 +44,14 @@ class YourMenuAdapter(private val yourMenus: List<YourMenu>) : RecyclerView.Adap
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = yourMenus[position]
-        if (holder is CategoryViewHolder) {
-            holder.bind(item)
-        } else if (holder is MenuItemViewHolder) {
-            holder.bind(item)
+        when (holder) {
+            is CategoryViewHolder -> holder.bind(item as YourMenu.CategoryLabel)
+            is MenuItemViewHolder -> holder.bind(item as YourMenu.MenuItem)
         }
+    }
+
+    companion object {
+        private const val VIEW_TYPE_CATEGORY = 0
+        private const val VIEW_TYPE_ITEM = 1
     }
 }
