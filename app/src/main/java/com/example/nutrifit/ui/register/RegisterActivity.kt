@@ -99,7 +99,7 @@ class RegisterActivity : AppCompatActivity() {
         override fun afterTextChanged(s: Editable?) {}
     }
 
-    private fun registerUser(name: String, username: String ,email: String, password: String) {
+    private fun registerUser(name: String, username: String, email: String, password: String) {
         val registerRequest = RegisterRequest(name, username, email, password)
 
         lifecycleScope.launch {
