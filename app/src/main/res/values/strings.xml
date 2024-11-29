@@ -47,14 +47,11 @@
     <string name="btn_register">Register</string>
     <string name="btn_login">Login</string>
 
+    <string name="name">Enter your name</string>
     <string name="username">Enter your username</string>
+    <string name="email">Enter your email</string>
     <string name="password">Enter your password</string>
     <string name="confirm_password">Confirm your password</string>
-
-    <string name="error_field_username">Username is required</string>
-    <string name="error_field_password">Password is required</string>
-    <string name="error_field_cpassword">Confirm password doesn\'t match</string>
-    <string name="error_field_min_length">Password must be at least 6 characters</string>
 
     <string name="have_account">Already have an account?</string>
     <string name="dont_have_account">Don\'t have an account?</string>

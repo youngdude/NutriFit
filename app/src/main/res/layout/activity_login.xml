@@ -44,31 +44,30 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:id="@+id/label_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:startIconDrawable="@drawable/ic_person_fill"
+                    android:hint="@string/field_email"
+                    app:startIconDrawable="@drawable/ic_email"
                     android:layout_marginTop="15dp">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/field_username"
+                        android:id="@+id/field_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingHorizontal="8dp"
                         android:paddingVertical="12dp"
                         android:textSize="14sp"
-                        android:hint="@string/username"
                         android:fontFamily="@font/poppins"
-                        android:inputType="text" />
+                        android:inputType="textEmailAddress" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:id="@+id/label_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:startIconDrawable="@drawable/ic_lock"
+                    android:hint="@string/password"
                     app:passwordToggleEnabled="true"
                     android:layout_marginTop="15dp">
 
@@ -79,7 +78,6 @@
                         android:paddingHorizontal="8dp"
                         android:paddingVertical="12dp"
                         android:textSize="14sp"
-                        android:hint="@string/password"
                         android:fontFamily="@font/poppins"
                         android:inputType="textPassword" />
 
