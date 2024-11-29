@@ -59,4 +59,16 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.circleimageview)
+    implementation (libs.material)
+
+    // TFlite
+    implementation (libs.tensorflow.lite)
+    implementation (libs.tensorflow.lite.support)
+
+    // Viewmodel & Livedata
+    implementation (libs.androidx.lifecycle.viewmodel.ktx)
+    implementation (libs.androidx.lifecycle.livedata.ktx)
+
+    // Opencsv
+    implementation (libs.opencsv)
 }

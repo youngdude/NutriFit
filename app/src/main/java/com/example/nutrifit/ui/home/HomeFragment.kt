@@ -9,11 +9,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.nutrifit.R
 import com.example.nutrifit.databinding.FragmentHomeBinding
+import org.tensorflow.lite.Interpreter
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
+    // TF interpreter
+    private lateinit var tfliteinterpreter: Interpreter
 
     override fun onResume() {
         super.onResume()
@@ -29,6 +33,13 @@ class HomeFragment : Fragment() {
         val target = resources.getStringArray(R.array.target)
         val arrayAdapterTarget = ArrayAdapter(requireContext(), R.layout.dropdown_item, target)
         binding.fieldTarget.setAdapter(arrayAdapterTarget)
+    }
+
+    // Load model
+    private fun loadModel() {
+        val assetManager = requireContext().assets
+        val modelPath = "model.tflite"
+        val model = assetManager.openFd(modelPath)
     }
 
     override fun onCreateView(
