@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:padding="30dp"
     android:orientation="vertical"
+    android:gravity="center"
     android:background="@drawable/bg__register"
     tools:context=".ui.register.RegisterActivity">
 
@@ -14,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true"
-        android:layout_centerInParent="true">
+        tools:ignore="UselessParent">
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
@@ -46,11 +47,11 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/field_name"
+                    android:hint="@string/name"
                     app:startIconDrawable="@drawable/ic_person"
                     android:layout_marginTop="15dp">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <com.example.nutrifit.ui.customView.NameEditText
                         android:id="@+id/field_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -70,7 +71,7 @@
                     app:startIconDrawable="@drawable/ic_profile"
                     android:layout_marginTop="15dp">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <com.example.nutrifit.ui.customView.UsernameEditText
                         android:id="@+id/field_username"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -90,7 +91,7 @@
                     android:hint="@string/email"
                     app:startIconDrawable="@drawable/ic_email">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <com.example.nutrifit.ui.customView.EmailEditText
                         android:id="@+id/field_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -108,10 +109,9 @@
                     android:layout_height="wrap_content"
                     app:startIconDrawable="@drawable/ic_lock"
                     android:hint="@string/password"
-                    app:passwordToggleEnabled="true"
                     android:layout_marginTop="15dp">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <com.example.nutrifit.ui.customView.PasswordEditText
                         android:id="@+id/field_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -120,8 +120,8 @@
                         android:textSize="14sp"
                         android:fontFamily="@font/poppins"
                         android:inputType="textPassword" />
-
                 </com.google.android.material.textfield.TextInputLayout>
+
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -129,10 +129,9 @@
                     android:layout_height="wrap_content"
                     app:startIconDrawable="@drawable/ic_lock"
                     android:hint="@string/confirm_password"
-                    app:passwordToggleEnabled="true"
                     android:layout_marginTop="15dp">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <com.example.nutrifit.ui.customView.PasswordEditText
                         android:id="@+id/field_cpassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -185,8 +184,15 @@
 
             </LinearLayout>
 
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+
         </com.google.android.material.card.MaterialCardView>
 
     </ScrollView>
 
-</RelativeLayout>
+</LinearLayout>

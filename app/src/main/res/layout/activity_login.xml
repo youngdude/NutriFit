@@ -14,7 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true"
-        android:layout_centerInParent="true">
+        android:layout_centerInParent="true"
+        tools:ignore="UselessParent">
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
@@ -50,7 +51,7 @@
                     app:startIconDrawable="@drawable/ic_email"
                     android:layout_marginTop="15dp">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <com.example.nutrifit.ui.customView.EmailEditText
                         android:id="@+id/field_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -68,10 +69,9 @@
                     android:layout_height="wrap_content"
                     app:startIconDrawable="@drawable/ic_lock"
                     android:hint="@string/password"
-                    app:passwordToggleEnabled="true"
                     android:layout_marginTop="15dp">
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <com.example.nutrifit.ui.customView.PasswordEditText
                         android:id="@+id/field_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -123,6 +123,13 @@
                 </LinearLayout>
 
             </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
 
         </com.google.android.material.card.MaterialCardView>
 

@@ -16,7 +16,6 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    // TF interpreter
     private lateinit var tfliteinterpreter: Interpreter
 
     override fun onResume() {
@@ -35,7 +34,6 @@ class HomeFragment : Fragment() {
         binding.fieldTarget.setAdapter(arrayAdapterTarget)
     }
 
-    // Load model
     private fun loadModel() {
         val assetManager = requireContext().assets
         val modelPath = "model.tflite"

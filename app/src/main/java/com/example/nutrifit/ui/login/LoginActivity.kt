@@ -27,14 +27,13 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.fieldEmail.addTextChangedListener(emailTextWatcher)
-        binding.fieldPassword.addTextChangedListener(passwordTextWatcher)
-
         binding.btnLogin.setOnClickListener {
             val email = binding.fieldEmail.text.toString().trim()
             val password = binding.fieldPassword.text.toString().trim()
 
-            loginUser(email, password)
+            if (isValidInput(email, password)) {
+                loginUser(email, password)
+            }
         }
 
         binding.registerPage.setOnClickListener {
@@ -42,58 +41,43 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private val emailTextWatcher = object : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+    private fun isValidInput(email: String, password: String): Boolean {
+        var isValid = true
 
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            val email = s.toString().trim()
-            if (email.isEmpty()) {
-                binding.fieldEmail.error = "Email is required"
-            } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                binding.fieldEmail.error = "Invalid email"
-            } else {
-                binding.fieldEmail.error = null
-            }
+        if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            binding.fieldEmail.error = "Valid email is required"
+            isValid = false
         }
-
-        override fun afterTextChanged(s: Editable?) {}
+        if (password.isEmpty() || password.length < 8) {
+            binding.fieldPassword.error = "Password must be at least 8 characters"
+            isValid = false
+        }
+        return isValid
     }
 
-    private val passwordTextWatcher = object : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            val password = s.toString().trim()
-            if (password.isEmpty()) {
-                binding.fieldPassword.error = "Password is required"
-            } else if (password.length < 8) {
-                binding.fieldPassword.error = "Password must be at least 8 characters"
-            } else {
-                binding.fieldPassword.error = null
-            }
-        }
-
-        override fun afterTextChanged(s: Editable?) {}
-    }
 
     private fun loginUser(email: String, password: String) {
         val loginRequest = LoginRequest(email, password)
 
+        binding.progressBar.visibility = android.view.View.VISIBLE
+        binding.btnLogin.isEnabled = false
+
         lifecycleScope.launch {
             try {
                 val response = ApiClient.apiService.loginUser(loginRequest)
+                binding.progressBar.visibility = android.view.View.GONE
+                binding.btnLogin.isEnabled = true
                 if (response.status == "success") {
+                    saveSession(response.data.userId, response.data.token)
                     Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                     finish()
                 } else {
-                    Toast.makeText(
-                        this@LoginActivity,
-                        "Failed: ${response.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(this@LoginActivity, "Login failed: ${response.message}", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: HttpException) {
+                binding.progressBar.visibility = android.view.View.GONE
+                binding.btnLogin.isEnabled = true
                 val errorResponse = e.response()?.errorBody()?.string()
                 Toast.makeText(
                     this@LoginActivity,
@@ -101,9 +85,20 @@ class LoginActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             } catch (e: Exception) {
+                binding.progressBar.visibility = android.view.View.GONE
+                binding.btnLogin.isEnabled = true
                 Toast.makeText(this@LoginActivity, "Error: ${e.message}", Toast.LENGTH_SHORT)
                     .show()
             }
         }
+    }
+
+    private fun saveSession(userId: String, token: String) {
+        val sharedPref = getSharedPreferences("user_session", MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        editor.putBoolean("isLoggedIn", true)
+        editor.putString("userId", userId)
+        editor.putString("token", token)
+        editor.apply()
     }
 }

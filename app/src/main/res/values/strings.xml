@@ -3,7 +3,7 @@
 
     // bottom navigation
     <string name="title_home">Home</string>
-    <string name="title_profile">Profile</string>
+    <string name="title_setting">Setting</string>
     <string name="title_your_menu">Your Menu</string>
 
     // dashboard
@@ -70,16 +70,11 @@
     <string name="detail_recipe">Recipe</string>
     <string name="detail_step">Steps to make</string>
 
-    // profile
-    <string name="label_name">Name</string>
-    <string name="field_name">Enter your name</string>
-    <string name="label_bio">Bio</string>
-    <string name="field_bio">Enter your bio</string>
-    <string name="label_email">Email</string>
-    <string name="field_email">Enter your email</string>
-    <string name="label_address">Address</string>
-    <string name="field_address">Enter your address</string>
-    <string name="btn_save">Save</string>
-    <string name="btn_cancel">Cancel</string>
+    // setting
+    <string name="desc_setting">Adjust your preferences or application configuration</string>
+    <string name="theme">Switch Theme</string>
+    <string name="logout">Logout</string>
+    <string name="profile">Profile</string>
+    <string name="favorite">Favorite Menu</string>
 
 </resources>

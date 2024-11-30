@@ -1,5 +1,6 @@
 package com.example.nutrifit.ui.register
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -8,6 +9,7 @@ import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.example.nutrifit.MainActivity
 import com.example.nutrifit.databinding.ActivityRegisterBinding
 import com.example.nutrifit.retrofit.api.ApiClient
 import com.example.nutrifit.retrofit.model.RegisterRequest
@@ -28,17 +30,16 @@ class RegisterActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
-        binding.fieldEmail.addTextChangedListener(emailTextWatcher)
-        binding.fieldPassword.addTextChangedListener(passwordTextWatcher)
-        binding.fieldCpassword.addTextChangedListener(confirmPasswordTextWatcher)
-
         binding.btnRegister.setOnClickListener {
             val name = binding.fieldName.text.toString().trim()
             val username = binding.fieldUsername.text.toString().trim()
             val email = binding.fieldEmail.text.toString().trim()
             val password = binding.fieldPassword.text.toString().trim()
+            val cpassword = binding.fieldCpassword.text.toString().trim()
 
-            registerUser(name, username, email, password)
+            if (isValidInput(name, username, email, password, cpassword)) {
+                registerUser(name, username, email, password)
+            }
         }
 
         binding.loginPage.setOnClickListener {
@@ -46,67 +47,55 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private val emailTextWatcher = object : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+    private fun isValidInput(name: String, username: String, email: String, password: String, cpassword: String): Boolean {
+        var isValid = true
 
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            val email = s.toString().trim()
-            if (email.isEmpty()) {
-                binding.fieldEmail.error = "Email is required"
-            } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                binding.fieldEmail.error = "Invalid email"
-            } else {
-                binding.fieldEmail.error = null
-            }
+        if (name.isEmpty()) {
+            binding.fieldName.error = "Name is required"
+            isValid = false
         }
-
-        override fun afterTextChanged(s: Editable?) {}
-    }
-
-    private val passwordTextWatcher = object : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            val password = s.toString().trim()
-            if (password.isEmpty()) {
-                binding.fieldPassword.error = "Password is required"
-            } else if (password.length < 8) {
-                binding.fieldPassword.error = "Password must be at least 8 characters"
-            } else {
-                binding.fieldPassword.error = null
-            }
+        if (username.isEmpty()) {
+            binding.fieldUsername.error = "Username is required"
+            isValid = false
         }
-
-        override fun afterTextChanged(s: Editable?) {}
-    }
-
-    private val confirmPasswordTextWatcher = object : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            val password = binding.fieldPassword.text.toString().trim()
-            val cpassword = s.toString().trim()
-
-            if (cpassword.isEmpty()) {
-                binding.fieldCpassword.error = "Please confirm your password"
-            } else if (password != cpassword) {
-                binding.fieldCpassword.error = "Password do not match"
-            } else {
-                binding.fieldCpassword.error = null
-            }
+        if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            binding.fieldEmail.error = "Valid email is required"
+            isValid = false
         }
-
-        override fun afterTextChanged(s: Editable?) {}
+        if (password.isEmpty() || password.length < 8) {
+            binding.fieldPassword.error = "Password must be at least 8 characters"
+            isValid = false
+        }
+        if (cpassword.isEmpty() || cpassword != password) {
+            binding.fieldCpassword.error = "Passwords do not match"
+            isValid = false
+        }
+        return isValid
     }
 
     private fun registerUser(name: String, username: String, email: String, password: String) {
         val registerRequest = RegisterRequest(name, username, email, password)
 
+        binding.progressBar.visibility = android.view.View.VISIBLE
+        binding.btnRegister.isEnabled = false
+
         lifecycleScope.launch {
             try {
                 val response = ApiClient.apiService.registerUser(registerRequest)
+                binding.progressBar.visibility = android.view.View.GONE
+                binding.btnRegister.isEnabled = true
                 if (response.status == "success") {
-                    Toast.makeText(this@RegisterActivity, "Registration successful", Toast.LENGTH_SHORT).show()
+                    val sharedPreferences = getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+                    sharedPreferences.edit()
+                        .putString("USER_NAME", username)
+                        .apply()
+
+                    Toast.makeText(
+                        this@RegisterActivity,
+                        "Registration successful",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
                     startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
                     finish()
                 } else {
@@ -117,6 +106,8 @@ class RegisterActivity : AppCompatActivity() {
                     ).show()
                 }
             } catch (e: HttpException) {
+                binding.progressBar.visibility = android.view.View.GONE
+                binding.btnRegister.isEnabled = true
                 val errorResponse = e.response()?.errorBody()?.string()
                 Toast.makeText(
                     this@RegisterActivity,
@@ -124,6 +115,8 @@ class RegisterActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             } catch (e: Exception) {
+                binding.progressBar.visibility = android.view.View.GONE
+                binding.btnRegister.isEnabled = true
                 Toast.makeText(this@RegisterActivity, "Error: ${e.message}", Toast.LENGTH_SHORT)
                     .show()
             }

@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.NutriFit" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.NutriFit_Light" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/secondary</item>
         <item name="colorPrimaryVariant">@color/secondary</item>
