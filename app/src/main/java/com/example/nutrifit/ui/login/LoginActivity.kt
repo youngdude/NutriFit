@@ -8,6 +8,7 @@ import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import com.example.nutrifit.MainActivity
 import com.example.nutrifit.databinding.ActivityLoginBinding
@@ -15,17 +16,28 @@ import com.example.nutrifit.retrofit.api.ApiClient
 import com.example.nutrifit.retrofit.model.LoginRequest
 import com.example.nutrifit.ui.home.HomeFragment
 import com.example.nutrifit.ui.register.RegisterActivity
+import com.example.nutrifit.utils.SessionManager
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var sessionManager: SessionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Thread.sleep(3000)
+        installSplashScreen()
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        sessionManager = SessionManager(this)
+
+        if (sessionManager.isLoggedIn()) {
+            navigateToMain()
+            return
+        }
 
         binding.btnLogin.setOnClickListener {
             val email = binding.fieldEmail.text.toString().trim()
@@ -62,16 +74,18 @@ class LoginActivity : AppCompatActivity() {
         binding.progressBar.visibility = android.view.View.VISIBLE
         binding.btnLogin.isEnabled = false
 
+        val apiService = ApiClient.getApiService(this)
+
         lifecycleScope.launch {
             try {
-                val response = ApiClient.apiService.loginUser(loginRequest)
+                val response = apiService.loginUser(loginRequest)
                 binding.progressBar.visibility = android.view.View.GONE
                 binding.btnLogin.isEnabled = true
-                if (response.status == "success") {
-                    saveSession(response.data.userId, response.data.token)
-                    Toast.makeText(this@LoginActivity, "Login successful", Toast.LENGTH_SHORT).show()
-                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-                    finish()
+                if (response.status == "success" && response.data != null) {
+                    sessionManager.clearSession()
+                    saveSession(response.data.userId ?: "", response.data.token ?: "")
+                    Toast.makeText(this@LoginActivity, "Login Success, Welcome ${response.data.name}", Toast.LENGTH_SHORT).show()
+                    navigateToMain()
                 } else {
                     Toast.makeText(this@LoginActivity, "Login failed: ${response.message}", Toast.LENGTH_SHORT).show()
                 }
@@ -79,26 +93,30 @@ class LoginActivity : AppCompatActivity() {
                 binding.progressBar.visibility = android.view.View.GONE
                 binding.btnLogin.isEnabled = true
                 val errorResponse = e.response()?.errorBody()?.string()
-                Toast.makeText(
-                    this@LoginActivity,
-                    "HTTP Error: $errorResponse",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(this@LoginActivity, "HTTP Error: $errorResponse", Toast.LENGTH_SHORT).show()
             } catch (e: Exception) {
                 binding.progressBar.visibility = android.view.View.GONE
                 binding.btnLogin.isEnabled = true
-                Toast.makeText(this@LoginActivity, "Error: ${e.message}", Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(this@LoginActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
+
+
+
     private fun saveSession(userId: String, token: String) {
-        val sharedPref = getSharedPreferences("user_session", MODE_PRIVATE)
-        val editor = sharedPref.edit()
-        editor.putBoolean("isLoggedIn", true)
-        editor.putString("userId", userId)
-        editor.putString("token", token)
-        editor.apply()
+        sessionManager.saveAuthToken(token)
+//        val sharedPref = getSharedPreferences("user_session", MODE_PRIVATE)
+//        val editor = sharedPref.edit()
+//        editor.putBoolean("isLoggedIn", true)
+//        editor.putString("userId", userId)
+//        editor.putString("token", token)
+//        editor.apply()
+    }
+
+    private fun navigateToMain() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 }

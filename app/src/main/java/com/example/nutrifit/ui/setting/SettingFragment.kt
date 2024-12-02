@@ -16,6 +16,8 @@ import androidx.fragment.app.Fragment
 import com.example.nutrifit.R
 import com.example.nutrifit.databinding.FragmentSettingBinding
 import com.example.nutrifit.ui.login.LoginActivity
+import com.example.nutrifit.utils.SessionManager
+import com.google.firebase.auth.FirebaseAuth
 
 class SettingFragment : Fragment() {
 
@@ -74,7 +76,12 @@ class SettingFragment : Fragment() {
     }
 
     private fun logout() {
-        sharedPreferences.edit().clear().apply()
+        val sessionManager = SessionManager(requireContext())
+        sessionManager.clearSession()
+
+        sharedPreferences.edit().remove("USER_NAME").apply()
+
+        FirebaseAuth.getInstance().signOut()
 
         val intent = Intent(requireActivity(), LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

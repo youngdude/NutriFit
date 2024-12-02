@@ -63,4 +63,5 @@ dependencies {
     implementation (libs.tensorflow.lite)
     implementation (libs.tensorflow.lite.support)
     implementation (libs.opencsv)
+    implementation(libs.androidx.core.splashscreen)
 }

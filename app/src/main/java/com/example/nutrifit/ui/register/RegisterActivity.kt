@@ -79,9 +79,11 @@ class RegisterActivity : AppCompatActivity() {
         binding.progressBar.visibility = android.view.View.VISIBLE
         binding.btnRegister.isEnabled = false
 
+        val apiService = ApiClient.getApiService(this)
+
         lifecycleScope.launch {
             try {
-                val response = ApiClient.apiService.registerUser(registerRequest)
+                val response = apiService.registerUser(registerRequest)
                 binding.progressBar.visibility = android.view.View.GONE
                 binding.btnRegister.isEnabled = true
                 if (response.status == "success") {
