@@ -14,7 +14,7 @@
         android:layout_gravity="center">
 
         <TextView
-            android:id="@+id/heading_home"
+            android:id="@+id/tv_heading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/heading_home"
@@ -24,23 +24,24 @@
             android:fontFamily="@font/poppins_bold" />
 
         <TextView
-            android:id="@+id/desc_home"
+            android:id="@+id/tv_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:textSize="14sp"
             android:text="@string/desc_home"
             android:fontFamily="@font/poppins"
-            android:layout_below="@+id/heading_home"/>
+            android:layout_below="@+id/tv_heading" />
 
         <LinearLayout
             android:id="@+id/row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_desc"
             android:orientation="horizontal"
             android:gravity="center"
             android:weightSum="2"
-            android:layout_below="@+id/desc_home"
+            android:baselineAligned="false"
             android:layout_marginTop="10dp">
 
             <com.google.android.material.textfield.TextInputLayout
@@ -84,11 +85,30 @@
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/label_age"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/row"
+            android:layout_marginTop="10dp"
+            android:hint="@string/age">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/field_age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins"
+                android:inputType="number"
+                android:paddingVertical="12dp"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/label_gender"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/row"
+            android:layout_below="@+id/label_age"
             android:layout_marginTop="10dp">
 
             <AutoCompleteTextView
@@ -151,6 +171,7 @@
             android:layout_marginTop="10dp"
             app:cornerRadius="30dp"
             android:layout_below="@+id/label_target"/>
+
     </RelativeLayout>
 
 </ScrollView>

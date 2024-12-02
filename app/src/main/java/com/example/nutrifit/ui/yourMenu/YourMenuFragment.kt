@@ -30,7 +30,7 @@ class YourMenuFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.progressbarYourMenu.visibility = View.VISIBLE
+        binding.tvProgressbar.visibility = View.VISIBLE
 
         val yourMenus = listOf(
             YourMenu.MenuItem("Breakfast", "Healthy Oatmeal with Fruits", "A nutritious start to your day.", R.drawable.default_food),
@@ -65,7 +65,7 @@ class YourMenuFragment : Fragment() {
         }
 
         view.postDelayed({
-            binding.progressbarYourMenu.visibility = View.GONE
+            binding.tvProgressbar.visibility = View.GONE
         }, 1000)
     }
 
