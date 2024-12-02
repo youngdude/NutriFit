@@ -1,6 +1,7 @@
 [versions]
 agp = "8.6.1"
 circleimageview = "3.1.0"
+commonsCsv = "1.10.0"
 coreSplashscreen = "1.0.1"
 datastorePreferences = "1.1.1"
 kotlin = "1.9.0"
@@ -22,7 +23,7 @@ navigationUiKtx = "2.8.3"
 activity = "1.9.3"
 googleGmsGoogleServices = "4.4.2"
 firebaseAuth = "23.1.0"
-opencsv = "5.6"
+opencsv = "5.7.1"
 retrofit = "2.11.0"
 tensorflowLite = "2.13.0"
 tensorflowLiteSupport = "0.4.4"
@@ -35,6 +36,7 @@ androidx-datastore-preferences = { module = "androidx.datastore:datastore-prefer
 androidx-lifecycle-livedata-ktx-v251 = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtxVersion" }
 androidx-lifecycle-viewmodel-ktx-v251 = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtxVersion" }
 circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleimageview" }
+commons-csv = { module = "org.apache.commons:commons-csv", version.ref = "commonsCsv" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
