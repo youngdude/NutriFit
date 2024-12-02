@@ -9,11 +9,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Switch
 import android.widget.Toast
-import androidx.cardview.widget.CardView
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
-import com.example.nutrifit.R
 import com.example.nutrifit.databinding.FragmentSettingBinding
 import com.example.nutrifit.ui.login.LoginActivity
 import com.example.nutrifit.utils.SessionManager
@@ -58,10 +56,12 @@ class SettingFragment : Fragment() {
     private fun toggleTheme(isDarkMode: Boolean) {
         sharedPreferences.edit().putBoolean("DARK_MODE", isDarkMode).apply()
 
-        val theme = if (isDarkMode) R.style.Theme_NutriFit_Dark else R.style.Theme_NutriFit_Light
-        requireActivity().setTheme(theme)
+        AppCompatDelegate.setDefaultNightMode(
+            if (isDarkMode) AppCompatDelegate.MODE_NIGHT_YES
+            else AppCompatDelegate.MODE_NIGHT_NO
+        )
 
-        Toast.makeText(requireContext(), "Theme changed, please restart the app", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), "Theme changed", Toast.LENGTH_SHORT).show()
     }
 
     private fun showLogoutConfirmation() {
