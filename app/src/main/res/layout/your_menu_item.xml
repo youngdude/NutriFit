@@ -19,7 +19,7 @@
             android:layout_marginBottom="20dp">
 
             <ImageView
-                android:id="@+id/image_your_menu"
+                android:id="@+id/tv_image"
                 android:layout_width="match_parent"
                 android:contentDescription="@string/detail_photo"
                 android:layout_height="150dp"
@@ -27,7 +27,7 @@
                 android:scaleType="centerCrop"/>
 
             <TextView
-                android:id="@+id/title_your_menu"
+                android:id="@+id/tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/item_title"
@@ -40,12 +40,10 @@
                 android:textColor="@color/white"/>
 
             <TextView
-                android:id="@+id/desc_your_menu"
+                android:id="@+id/tv_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/item_desc"
-                android:maxLines="2"
-                android:ellipsize="end"
+                android:text="@string/item_type"
                 android:fontFamily="@font/poppins"
                 android:paddingTop="5dp"
                 android:paddingHorizontal="20dp"

@@ -24,9 +24,9 @@ class YourMenuAdapter(private val yourMenus: List<YourMenu>) : RecyclerView.Adap
 
     class MenuItemViewHolder(private val binding: YourMenuItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(menu: YourMenu.MenuItem) {
-            binding.titleYourMenu.text = menu.title
-            binding.descYourMenu.text = menu.description
-            binding.imageYourMenu.setImageResource(menu.imageResId)
+            binding.tvTitle.text = menu.title
+            binding.tvType.text = menu.type
+            binding.tvImage.setImageResource(menu.imageResId)
         }
     }
 

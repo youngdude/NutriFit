@@ -61,7 +61,8 @@
     <string name="desc_menu">a collection of healthy food recommendation articles tailored to support your diet goals</string>
     <string name="category_menu">Category Menu</string>
     <string name="item_title">Title Menu</string>
-    <string name="item_desc">Description Menu</string>
+    <string name="item_type">Type Menu</string>
+    <string name="message">No recommendation available.</string>
 
     // detail menu
     <string name="detail_photo">Image Food</string>

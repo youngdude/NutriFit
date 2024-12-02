@@ -7,7 +7,7 @@
     tools:context=".ui.yourMenu.YourMenuFragment">
 
     <TextView
-        android:id="@+id/heading_your_menu"
+        android:id="@+id/tv_heading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/heading_menu"
@@ -18,10 +18,10 @@
         android:layout_marginTop="10dp" />
 
     <TextView
-        android:id="@+id/desc_your_menu"
+        android:id="@+id/tv_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/heading_your_menu"
+        android:layout_below="@+id/tv_heading"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="20dp"
         android:textSize="14sp"
@@ -31,23 +31,32 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/desc_your_menu"
+        android:layout_below="@+id/tv_desc"
         android:background="@color/primary"/>
 
     <ProgressBar
-        android:id="@+id/progressbar_your_menu"
+        android:id="@+id/tv_progressbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:layout_centerInParent="true"
         android:layout_marginTop="20dp"/>
 
+    <TextView
+        android:id="@+id/tv_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:fontFamily="@font/poppins"
+        android:text="@string/message"
+        android:visibility="gone" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_your_menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="20dp"
-        android:layout_below="@+id/desc_your_menu"
+        android:layout_below="@+id/tv_desc"
         tools:listitem="@layout/your_menu_item" />
 
 </RelativeLayout>
