@@ -19,4 +19,8 @@
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_icon</item>
         <item name="postSplashScreenTheme">@style/Theme.NutriFit_Light</item>
     </style>
+
+    <style name="DropdownTextStyle" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">@color/white</item>
+    </style>
 </resources>
