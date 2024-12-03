@@ -2,9 +2,6 @@ package com.example.nutrifit.ui.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +11,6 @@ import com.example.nutrifit.MainActivity
 import com.example.nutrifit.databinding.ActivityLoginBinding
 import com.example.nutrifit.retrofit.api.ApiClient
 import com.example.nutrifit.retrofit.model.LoginRequest
-import com.example.nutrifit.ui.home.HomeFragment
 import com.example.nutrifit.ui.register.RegisterActivity
 import com.example.nutrifit.utils.SessionManager
 import kotlinx.coroutines.launch
@@ -83,7 +79,9 @@ class LoginActivity : AppCompatActivity() {
                 binding.btnLogin.isEnabled = true
                 if (response.status == "success" && response.data != null) {
                     sessionManager.clearSession()
-                    saveSession(response.data.userId ?: "", response.data.token ?: "")
+                    saveSession(response.data.token ?: "")
+                    sessionManager.saveUsername(response.data?.name ?: "")
+
                     Toast.makeText(this@LoginActivity, "Login Success, Welcome ${response.data.name}", Toast.LENGTH_SHORT).show()
                     navigateToMain()
                 } else {
@@ -102,17 +100,8 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-
-
-
-    private fun saveSession(userId: String, token: String) {
+    private fun saveSession(token: String) {
         sessionManager.saveAuthToken(token)
-//        val sharedPref = getSharedPreferences("user_session", MODE_PRIVATE)
-//        val editor = sharedPref.edit()
-//        editor.putBoolean("isLoggedIn", true)
-//        editor.putString("userId", userId)
-//        editor.putString("token", token)
-//        editor.apply()
     }
 
     private fun navigateToMain() {

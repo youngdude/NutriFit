@@ -4,27 +4,29 @@ import android.content.Context
 import android.content.SharedPreferences
 
 class SessionManager(context: Context) {
-    private val prefs: SharedPreferences =
-        context.getSharedPreferences("user_session", Context.MODE_PRIVATE)
+    private val prefs: SharedPreferences = context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
 
     fun saveAuthToken(token: String) {
-        val editor = prefs.edit()
-        editor.putString("auth_token", token)
-        editor.putBoolean("is_logged_in", true)
-        editor.apply()
+        prefs.edit().putString("AUTH_TOKEN", token).apply()
     }
 
     fun getAuthToken(): String? {
         return prefs.getString("auth_token", null)
     }
 
+    fun saveUsername(username: String) {
+        prefs.edit().putString("USER_NAME", username).apply()
+    }
+
+    fun getUsername(): String? {
+        return prefs.getString("USER_NAME", null)
+    }
+
     fun isLoggedIn(): Boolean {
-        return prefs.getBoolean("is_logged_in", false)
+        return prefs.contains("AUTH_TOKEN")
     }
 
     fun clearSession() {
-        val editor = prefs.edit()
-        editor.clear()
-        editor.apply()
+        prefs.edit().clear().apply()
     }
 }

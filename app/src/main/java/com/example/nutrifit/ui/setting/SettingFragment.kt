@@ -23,6 +23,7 @@ class SettingFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var sessionManager: SessionManager
 
     @SuppressLint("UseSwitchCompatOrMaterialCode", "SetTextI18n")
     override fun onCreateView(
@@ -33,8 +34,9 @@ class SettingFragment : Fragment() {
         _binding = FragmentSettingBinding.inflate(inflater, container, false)
 
         sharedPreferences = requireActivity().getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
+        sessionManager = SessionManager(requireContext())
 
-        val username = sharedPreferences.getString("USER_NAME", "User")
+        val username = sessionManager.getUsername() ?: "User"
         binding.tvWelcome.text = "Welcome, $username"
 
         val switchTheme = binding.btnTheme
@@ -76,9 +78,7 @@ class SettingFragment : Fragment() {
     }
 
     private fun logout() {
-        val sessionManager = SessionManager(requireContext())
         sessionManager.clearSession()
-
         sharedPreferences.edit().remove("USER_NAME").apply()
 
         FirebaseAuth.getInstance().signOut()
