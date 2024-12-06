@@ -1,121 +1,61 @@
 package com.example.nutrifit.utils
 
-import android.app.Activity
-import android.graphics.Bitmap
+import android.content.Context
 import org.tensorflow.lite.Interpreter
-import org.tensorflow.lite.support.common.FileUtil
-import org.tensorflow.lite.support.common.TensorOperator
-import org.tensorflow.lite.support.common.TensorProcessor
-import org.tensorflow.lite.support.common.ops.NormalizeOp
-import org.tensorflow.lite.support.image.ImageProcessor
-import org.tensorflow.lite.support.image.TensorImage
-import org.tensorflow.lite.support.image.ops.ResizeOp
-import org.tensorflow.lite.support.image.ops.ResizeWithCropOrPadOp
-import org.tensorflow.lite.support.label.TensorLabel
-import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 import java.io.FileInputStream
 import java.io.IOException
-import java.nio.MappedByteBuffer
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
 import java.nio.channels.FileChannel
-import java.util.*
-import kotlin.math.min
 
-class TFLiteHelper(private val context: Activity) {
+class TFLiteHelper(private val context: Context) {
 
-    private var imageSizeX = 0
-    private var imageSizeY = 0
-
-    private var labels: List<String>? = null
-    private var tfLite: Interpreter? = null
-
-    private var inputImageBuffer: TensorImage? = null
-    private var outputProbabilityBuffer: TensorBuffer? = null
-    private var probabilityProcessor: TensorProcessor? = null
-
-    private val imageMean = 0.0f
-    private val imageStd = 1.0f
-
-    private val probabilityMean = 0.0f
-    private val probabilityStd = 255.0f
+    private var interpreter: Interpreter? = null
 
     fun init() {
         try {
-            val opt = Interpreter.Options()
-            tfLite = Interpreter(loadModelFile(context)!!, opt)
+            // Muat model dari asset dan ubah ke MappedByteBuffer
+            val mappedByteBuffer = loadModelFile(context)
+            interpreter = Interpreter(mappedByteBuffer)
         } catch (e: Exception) {
             e.printStackTrace()
         }
-    }
-
-    private fun loadImage(bitmap: Bitmap): TensorImage {
-        inputImageBuffer!!.load(bitmap)
-
-        val cropSize = min(bitmap.width, bitmap.height)
-        val imageProcessor = ImageProcessor.Builder()
-            .add(ResizeWithCropOrPadOp(cropSize, cropSize))
-            .add(ResizeOp(imageSizeX, imageSizeY, ResizeOp.ResizeMethod.NEAREST_NEIGHBOR))
-            .add(getPreprocessNormalizeOp())
-            .build()
-        return imageProcessor.process(inputImageBuffer)
     }
 
     @Throws(IOException::class)
-    private fun loadModelFile(activity: Activity?): MappedByteBuffer? {
-        val modelName = "model.tflite"
-        val fileDescriptor = activity!!.assets.openFd(modelName)
-        val inputStream = FileInputStream(fileDescriptor.fileDescriptor)
-        val fileChannel = inputStream.channel
-        val startOffset = fileDescriptor.startOffset
-        val declaredLength = fileDescriptor.declaredLength
+    private fun loadModelFile(context: Context): ByteBuffer {
+        // Muat file model dari folder 'assets'
+        val assetFileDescriptor = context.assets.openFd("model.tflite")
+        val fileInputStream = FileInputStream(assetFileDescriptor.fileDescriptor)
+        val fileChannel = fileInputStream.channel
+        val startOffset = assetFileDescriptor.startOffset
+        val declaredLength = assetFileDescriptor.declaredLength
         return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength)
     }
 
-    fun classifyImage(bitmap: Bitmap) {
-        val imageTensorIndex = 0
-        val imageShape = tfLite!!.getInputTensor(imageTensorIndex).shape()
 
-        imageSizeY = imageShape[1]
-        imageSizeX = imageShape[2]
-
-        val imageDataType = tfLite!!.getInputTensor(imageTensorIndex).dataType()
-        val probabilityTensorIndex = 0
-        val probabilityShape = tfLite!!.getOutputTensor(probabilityTensorIndex).shape()
-        val probabilityDataType = tfLite!!.getOutputTensor(probabilityTensorIndex).dataType()
-
-        inputImageBuffer = TensorImage(imageDataType)
-        outputProbabilityBuffer =
-            TensorBuffer.createFixedSize(probabilityShape, probabilityDataType)
-        probabilityProcessor = TensorProcessor.Builder().add(getPostProcessNormalizeOp()).build()
-        inputImageBuffer = loadImage(bitmap)
-        tfLite!!.run(inputImageBuffer!!.buffer, outputProbabilityBuffer!!.buffer.rewind())
-    }
-
-    fun showResult(): List<String>? {
-        labels = try {
-            FileUtil.loadLabels(context, "resep.csv")
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return null
+    fun classify(inputData: FloatArray): Int? {
+        if (interpreter == null) {
+            throw IllegalStateException("Interpreter is not initialized.")
         }
-        val labeledProbability = TensorLabel(
-            labels!!, probabilityProcessor!!.process(outputProbabilityBuffer)
-        )
-            .mapWithFloatValue
-        val maxValueInMap = Collections.max(labeledProbability.values)
-        val result: MutableList<String> = ArrayList()
-        for ((key, value) in labeledProbability) {
-            if (value == maxValueInMap) {
-                result.add(key)
-            }
-        }
-        return result
+
+        // Input: 6 features (Weight, Height, Age, Gender, Activity, Target)
+        val inputBuffer = ByteBuffer.allocateDirect(6 * 4).order(ByteOrder.nativeOrder())
+        inputData.forEach { inputBuffer.putFloat(it) }
+
+        // Output: Probability for each cluster (e.g., 5 clusters -> float[5])
+        val outputBuffer = ByteBuffer.allocateDirect(5 * 4).order(ByteOrder.nativeOrder())
+        interpreter?.run(inputBuffer, outputBuffer)
+
+        // Read output probabilities and return the cluster ID with max probability
+        outputBuffer.rewind()
+        val probabilities = FloatArray(5)
+        outputBuffer.asFloatBuffer().get(probabilities)
+
+        return probabilities.indices.maxByOrNull { probabilities[it] }
     }
 
-    private fun getPreprocessNormalizeOp(): TensorOperator {
-        return NormalizeOp(imageMean, imageStd)
-    }
-
-    private fun getPostProcessNormalizeOp(): TensorOperator {
-        return NormalizeOp(probabilityMean, probabilityStd)
+    fun close() {
+        interpreter?.close()
     }
 }

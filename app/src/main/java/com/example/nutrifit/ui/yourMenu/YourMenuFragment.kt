@@ -10,6 +10,9 @@ import com.example.nutrifit.R
 import com.example.nutrifit.adapter.YourMenuAdapter
 import com.example.nutrifit.data.YourMenu
 import com.example.nutrifit.databinding.FragmentYourMenuBinding
+import org.apache.commons.csv.CSVFormat
+import org.apache.commons.csv.CSVParser
+import java.io.InputStreamReader
 
 class YourMenuFragment : Fragment() {
 
@@ -32,33 +35,9 @@ class YourMenuFragment : Fragment() {
 
         binding.tvProgressbar.visibility = View.VISIBLE
 
-        val yourMenus = listOf(
-            YourMenu.MenuItem("Breakfast", "Healthy Oatmeal with Fruits", "A nutritious start to your day.", R.drawable.default_food),
-            YourMenu.MenuItem("Breakfast", "Avocado Toast", "A healthy and tasty breakfast.", R.drawable.default_food),
-            YourMenu.MenuItem("Breakfast", "Scrambled Eggs with Toast", "A classic breakfast to energize your morning.", R.drawable.default_food),
+        val yourMenus = getMenuData() // Get data from CSV or your source
 
-            YourMenu.MenuItem("Lunch", "Grilled Chicken Salad", "High-protein, low-calorie meal.", R.drawable.default_food),
-            YourMenu.MenuItem("Lunch", "Vegetable Stir Fry", "A healthy and colorful lunch choice.", R.drawable.default_food),
-            YourMenu.MenuItem("Lunch", "Chicken Wrap", "A quick and nutritious meal.", R.drawable.default_food),
-
-            YourMenu.MenuItem("Dinner", "Steamed Fish and Vegetables", "Light and healthy dinner option.", R.drawable.default_food),
-            YourMenu.MenuItem("Dinner", "Spaghetti with Tomato Sauce", "A hearty meal for dinner.", R.drawable.default_food),
-            YourMenu.MenuItem("Dinner", "Grilled Salmon with Lemon", "A perfect dinner with omega-3.", R.drawable.default_food)
-        )
-
-        val limitedMenus = mutableListOf<YourMenu>()
-        val categories = listOf("Breakfast", "Lunch", "Dinner")
-
-        categories.forEach { category ->
-            limitedMenus.add(YourMenu.CategoryLabel(category))
-
-            yourMenus.filterIsInstance<YourMenu.MenuItem>()
-                .filter { menuItem -> menuItem.category == category }
-                .take(2)
-                .forEach { limitedMenus.add(it) }
-        }
-
-        yourMenuAdapter = YourMenuAdapter(limitedMenus)
+        yourMenuAdapter = YourMenuAdapter(yourMenus)
         binding.recyclerviewYourMenu.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = yourMenuAdapter
@@ -67,6 +46,32 @@ class YourMenuFragment : Fragment() {
         view.postDelayed({
             binding.tvProgressbar.visibility = View.GONE
         }, 1000)
+    }
+
+    private fun getMenuData(): List<YourMenu> {
+        val menuList = mutableListOf<YourMenu>()
+        try {
+            val csvInputStream = requireContext().assets.open("menu.csv")
+            val reader = InputStreamReader(csvInputStream)
+            val csvParser = CSVParser(reader, CSVFormat.DEFAULT.withHeader())
+
+            val groupedMenuItems = csvParser.records.groupBy { it.get("category") }
+
+            groupedMenuItems.forEach { (category, records) ->
+                val menuItems = records.map {
+                    YourMenu.MenuItem(
+                        name = it.get("name"),
+                        description = it.get("description"),
+                        imageRes = R.drawable.default_food // Or map to a real image resource
+                    )
+                }
+                menuList.add(YourMenu(category, menuItems))
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return menuList
     }
 
     override fun onDestroyView() {

@@ -10,33 +10,39 @@ import com.example.nutrifit.databinding.YourMenuItemBinding
 class YourMenuAdapter(private val yourMenus: List<YourMenu>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemViewType(position: Int): Int {
-        return when (yourMenus[position]) {
-            is YourMenu.CategoryLabel -> VIEW_TYPE_CATEGORY
-            is YourMenu.MenuItem -> VIEW_TYPE_ITEM
+        // Determine if the current item is a category or a menu item
+        return if (yourMenus[position].items.isEmpty()) {
+            VIEW_TYPE_CATEGORY
+        } else {
+            VIEW_TYPE_ITEM
         }
     }
 
     class CategoryViewHolder(private val binding: CategoryItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(categoryLabel: YourMenu.CategoryLabel) {
+        fun bind(categoryLabel: YourMenu) {
             binding.tvCategoryLabel.text = categoryLabel.category
         }
     }
 
     class MenuItemViewHolder(private val binding: YourMenuItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(menu: YourMenu.MenuItem) {
-            binding.tvTitle.text = menu.title
-            binding.tvType.text = menu.type
-            binding.tvImage.setImageResource(menu.imageResId)
+            binding.tvTitle.text = menu.name
+            binding.tvType.text = menu.description
+            binding.tvImage.setImageResource(menu.imageRes)
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == VIEW_TYPE_CATEGORY) {
-            val binding = CategoryItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            CategoryViewHolder(binding)
-        } else {
-            val binding = YourMenuItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-            MenuItemViewHolder(binding)
+        return when (viewType) {
+            VIEW_TYPE_CATEGORY -> {
+                val binding = CategoryItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                CategoryViewHolder(binding)
+            }
+            VIEW_TYPE_ITEM -> {
+                val binding = YourMenuItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                MenuItemViewHolder(binding)
+            }
+            else -> throw IllegalArgumentException("Invalid view type")
         }
     }
 
@@ -45,8 +51,10 @@ class YourMenuAdapter(private val yourMenus: List<YourMenu>) : RecyclerView.Adap
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = yourMenus[position]
         when (holder) {
-            is CategoryViewHolder -> holder.bind(item as YourMenu.CategoryLabel)
-            is MenuItemViewHolder -> holder.bind(item as YourMenu.MenuItem)
+            is CategoryViewHolder -> holder.bind(item) // Use the YourMenu object as CategoryLabel
+            is MenuItemViewHolder -> item.items.forEach { menuItem ->
+                holder.bind(menuItem) // Bind MenuItems to MenuItemViewHolder
+            }
         }
     }
 
