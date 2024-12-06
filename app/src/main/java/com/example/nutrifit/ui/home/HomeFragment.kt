@@ -1,6 +1,7 @@
 package com.example.nutrifit.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -95,7 +96,7 @@ class HomeFragment : Fragment() {
                 InputStreamReader(csvInputStream),
                 CSVFormat.DEFAULT.withHeader()
             )
-            csvParser.map { it.get("recipe_name") }
+            csvParser.map { it.get("nama_makanan") }
         } catch (e: Exception) {
             e.printStackTrace()
             Toast.makeText(requireContext(), "Error reading CSV file!", Toast.LENGTH_SHORT).show()
@@ -104,19 +105,16 @@ class HomeFragment : Fragment() {
     }
 
     private fun processInputAndShowResults() {
-        // Ambil input dari pengguna
         val weight = binding.fieldWeight.text.toString().toFloatOrNull()
         val height = binding.fieldHeight.text.toString().toFloatOrNull()
         val age = binding.fieldAge.text.toString().toIntOrNull()
 
-        // Gender Mapping (Male = 1, Female = 0)
         val gender = when (binding.fieldGender.text.toString()) {
             "Male" -> 1f
             "Female" -> 0f
             else -> null
         }
 
-        // Activity Level Mapping (InActive = 1, Lightly Active = 2, etc.)
         val activityLevel = when (binding.fieldActivity.text.toString()) {
             "InActive" -> 1f
             "Lightly Active" -> 2f
@@ -126,34 +124,27 @@ class HomeFragment : Fragment() {
             else -> null
         }
 
-        // Target Mapping (1 Kg = 1f, 2 Kg = 2f, etc.)
         val target = binding.fieldTarget.text.toString().removeSuffix(" Kg").toFloatOrNull()
 
-        // Validasi input
         if (weight == null || height == null || age == null || gender == null || activityLevel == null || target == null) {
             Toast.makeText(requireContext(), "Please fill in all fields correctly.", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // Format input untuk model (Pastikan input berukuran [1, 6] - 6 fitur)
         val inputArray = arrayOf(floatArrayOf(weight, height, age.toFloat(), gender, activityLevel, target))
 
-        // Output array dengan shape [1, 3] untuk 3 rekomendasi
-        val output = Array(1) { FloatArray(3) } // Output untuk 3 rekomendasi
+        val output = Array(1) { FloatArray(6) }
 
-        // Jalankan model
         try {
             tfliteInterpreter.run(inputArray, output)
 
-            // Ambil resep berdasarkan skor yang dihasilkan dari model
             val recommendedRecipes = getRecipesFromCsv()
             val results = output[0].mapIndexed { index, score ->
-                // Ensure index is within bounds
                 val recipeName = recommendedRecipes.getOrNull(index) ?: "Unknown"
                 "Recipe ${index + 1}: $recipeName (Score: $score)"
             }
 
-            // Tampilkan hasil rekomendasi
+            Log.e("output_tag", "Recipe $results")
             Toast.makeText(requireContext(), results.joinToString("\n"), Toast.LENGTH_LONG).show()
         } catch (e: Exception) {
             e.printStackTrace()
