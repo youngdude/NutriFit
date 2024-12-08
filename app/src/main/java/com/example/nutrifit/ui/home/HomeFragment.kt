@@ -44,6 +44,7 @@ class HomeFragment : Fragment() {
         super.onResume()
         setupDropdownMenus()
         setupButtonClickListener()
+        testCsvReading()
     }
 
     private fun setupDropdownMenus() {
@@ -89,14 +90,23 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun getRecipesFromCsv(): List<String> {
+    private fun getRecipesFromCsv(): List<Map<String, String>> {
         return try {
             val csvInputStream = requireContext().assets.open("resep.csv")
             val csvParser = org.apache.commons.csv.CSVParser(
                 InputStreamReader(csvInputStream),
                 CSVFormat.DEFAULT.withHeader()
             )
-            csvParser.map { it.get("nama_makanan") }
+
+            // Parse CSV file and map each row as a map of header-value pairs
+            csvParser.map { record ->
+                mapOf(
+                    "nama_makanan" to record.get("nama_makanan"),
+                    "kalori" to record.get("kalori"),
+                    "jenis" to record.get("jenis"),
+                    "image" to record.get("image")
+                )
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             Toast.makeText(requireContext(), "Error reading CSV file!", Toast.LENGTH_SHORT).show()
@@ -132,23 +142,52 @@ class HomeFragment : Fragment() {
         }
 
         val inputArray = arrayOf(floatArrayOf(weight, height, age.toFloat(), gender, activityLevel, target))
-
         val output = Array(1) { FloatArray(6) }
 
         try {
             tfliteInterpreter.run(inputArray, output)
 
             val recommendedRecipes = getRecipesFromCsv()
-            val results = output[0].mapIndexed { index, score ->
-                val recipeName = recommendedRecipes.getOrNull(index) ?: "Unknown"
-                "Recipe ${index + 1}: $recipeName (Score: $score)"
+            if (recommendedRecipes.size < output[0].size) {
+                Toast.makeText(requireContext(), "Not enough recipes to match the model's output.", Toast.LENGTH_SHORT).show()
+                return
             }
 
-            Log.e("output_tag", "Recipe $results")
-            Toast.makeText(requireContext(), results.joinToString("\n"), Toast.LENGTH_LONG).show()
+            // Pair each recipe with its score and sort by score in descending order
+            val results = output[0].mapIndexed { index, score ->
+                val recipe = recommendedRecipes.getOrNull(index)
+                Pair(score, recipe)
+            }.sortedByDescending { it.first } // Sort by score descending
+
+            // Log grouped results
+            results.forEachIndexed { index, (score, recipe) ->
+                val message = "Recipe ${index + 1}: Name=${recipe?.get("nama_makanan") ?: "Unknown"}, " +
+                        "Calories=${recipe?.get("kalori") ?: "Unknown"}, " +
+                        "Type=${recipe?.get("jenis") ?: "Unknown"}, " +
+                        "Image=${recipe?.get("image") ?: "No Image"} (Score: $score)"
+                Log.d("OUTPUT_GROUPED", message)
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             Toast.makeText(requireContext(), "Error processing input!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+    private fun testCsvReading() {
+        val recipes = getRecipesFromCsv()
+
+        if (recipes.isEmpty()) {
+            Log.e("CSV_TEST", "No data found in the CSV file.")
+            return
+        }
+
+        // Log each recipe data
+        recipes.forEachIndexed { index, recipe ->
+            val message = "Recipe ${index + 1}: Name=${recipe["nama_makanan"]}, " +
+                    "Calories=${recipe["kalori"]}, Type=${recipe["jenis"]}, " +
+                    "Image=${recipe["image"]}"
+            Log.d("CSV_TEST", message)
         }
     }
 
