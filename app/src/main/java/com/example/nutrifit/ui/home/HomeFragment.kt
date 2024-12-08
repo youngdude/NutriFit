@@ -10,10 +10,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.nutrifit.R
 import com.example.nutrifit.databinding.FragmentHomeBinding
+import com.example.nutrifit.utils.TFLiteHelper
 import org.apache.commons.csv.CSVFormat
 import org.tensorflow.lite.Interpreter
 import java.io.InputStreamReader
-import java.nio.ByteBuffer
 import java.nio.channels.FileChannel
 
 class HomeFragment : Fragment() {
@@ -38,6 +38,7 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        TFLiteHelper.closeInterpreter()
     }
 
     override fun onResume() {
@@ -98,7 +99,6 @@ class HomeFragment : Fragment() {
                 CSVFormat.DEFAULT.withHeader()
             )
 
-            // Parse CSV file and map each row as a map of header-value pairs
             csvParser.map { record ->
                 mapOf(
                     "nama_makanan" to record.get("nama_makanan"),
@@ -142,24 +142,22 @@ class HomeFragment : Fragment() {
         }
 
         val inputArray = arrayOf(floatArrayOf(weight, height, age.toFloat(), gender, activityLevel, target))
-        val output = Array(1) { FloatArray(6) }
-
-        try {
-            tfliteInterpreter.run(inputArray, output)
-
+        val output = TFLiteHelper.runInference(
+            inputArray,
+            TFLiteHelper.loadModel(requireContext(), "model.tflite")
+        )
+        if (output != null) {
             val recommendedRecipes = getRecipesFromCsv()
             if (recommendedRecipes.size < output[0].size) {
                 Toast.makeText(requireContext(), "Not enough recipes to match the model's output.", Toast.LENGTH_SHORT).show()
                 return
             }
 
-            // Pair each recipe with its score and sort by score in descending order
             val results = output[0].mapIndexed { index, score ->
                 val recipe = recommendedRecipes.getOrNull(index)
                 Pair(score, recipe)
-            }.sortedByDescending { it.first } // Sort by score descending
+            }.sortedByDescending { it.first }
 
-            // Log grouped results
             results.forEachIndexed { index, (score, recipe) ->
                 val message = "Recipe ${index + 1}: Name=${recipe?.get("nama_makanan") ?: "Unknown"}, " +
                         "Calories=${recipe?.get("kalori") ?: "Unknown"}, " +
@@ -167,9 +165,6 @@ class HomeFragment : Fragment() {
                         "Image=${recipe?.get("image") ?: "No Image"} (Score: $score)"
                 Log.d("OUTPUT_GROUPED", message)
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Toast.makeText(requireContext(), "Error processing input!", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -182,7 +177,6 @@ class HomeFragment : Fragment() {
             return
         }
 
-        // Log each recipe data
         recipes.forEachIndexed { index, recipe ->
             val message = "Recipe ${index + 1}: Name=${recipe["nama_makanan"]}, " +
                     "Calories=${recipe["kalori"]}, Type=${recipe["jenis"]}, " +
