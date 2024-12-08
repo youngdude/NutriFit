@@ -74,6 +74,7 @@
     // setting
     <string name="desc_setting">Adjust your preferences or application configuration</string>
     <string name="theme">Switch Theme</string>
+    <string name="dropdown">Dropdown</string>
     <string name="logout">Logout</string>
     <string name="profile">Profile</string>
     <string name="favorite">Favorite Menu</string>

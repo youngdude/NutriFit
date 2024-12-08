@@ -1,6 +1,7 @@
 package com.example.nutrifit.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -123,34 +124,27 @@ class HomeFragment : Fragment() {
             else -> null
         }
 
-
         val target = binding.fieldTarget.text.toString().removeSuffix(" Kg").toFloatOrNull()
-
 
         if (weight == null || height == null || age == null || gender == null || activityLevel == null || target == null) {
             Toast.makeText(requireContext(), "Please fill in all fields correctly.", Toast.LENGTH_SHORT).show()
             return
         }
 
-
         val inputArray = arrayOf(floatArrayOf(weight, height, age.toFloat(), gender, activityLevel, target))
 
-
         val output = Array(1) { FloatArray(6) }
-
 
         try {
             tfliteInterpreter.run(inputArray, output)
 
-
             val recommendedRecipes = getRecipesFromCsv()
             val results = output[0].mapIndexed { index, score ->
-
                 val recipeName = recommendedRecipes.getOrNull(index) ?: "Unknown"
                 "Recipe ${index + 1}: $recipeName (Score: $score)"
             }
 
-
+            Log.e("output_tag", "Recipe $results")
             Toast.makeText(requireContext(), results.joinToString("\n"), Toast.LENGTH_LONG).show()
         } catch (e: Exception) {
             e.printStackTrace()
