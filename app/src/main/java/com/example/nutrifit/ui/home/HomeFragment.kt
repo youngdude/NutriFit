@@ -181,8 +181,7 @@ class HomeFragment : Fragment() {
             Log.e("CSV_TEST", "No data found in the CSV file.")
             return
         }
-
-        // Log each recipe data
+        
         recipes.forEachIndexed { index, recipe ->
             val message = "Recipe ${index + 1}: Name=${recipe["nama_makanan"]}, " +
                     "Calories=${recipe["kalori"]}, Type=${recipe["jenis"]}, " +
