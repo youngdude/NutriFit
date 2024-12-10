@@ -31,7 +31,7 @@ object TFLiteHelper {
     fun runInference(input: Array<FloatArray>, interpreter: Interpreter?): Array<FloatArray>? {
         return try {
             // Menyesuaikan ukuran output dengan jumlah output yang diberikan oleh model (9)
-            val output = Array(1) { FloatArray(6) }
+            val output = Array(1) { FloatArray(5) }
 
             // Melakukan inferensi dengan input data
             interpreter?.run(input, output)

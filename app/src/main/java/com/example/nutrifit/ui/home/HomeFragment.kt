@@ -116,7 +116,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-
     private fun processInputAndShowResults() {
         val weight = binding.fieldWeight.text.toString().toFloatOrNull()
         val height = binding.fieldHeight.text.toString().toFloatOrNull()
@@ -137,54 +136,63 @@ class HomeFragment : Fragment() {
             else -> null
         }
 
-        val target = binding.fieldTarget.text.toString().removeSuffix(" Kg").toFloatOrNull()
+        val targetString = binding.fieldTarget.text.toString()
+        val target = targetString.removeSuffix(" Kg").toFloatOrNull()
 
         if (weight == null || height == null || age == null || gender == null || activityLevel == null || target == null) {
             Toast.makeText(requireContext(), "Please fill in all fields correctly.", Toast.LENGTH_SHORT).show()
             return
         }
 
+        // Prepare input array in expected format
         val inputArray = arrayOf(floatArrayOf(weight, height, age.toFloat(), gender, activityLevel, target))
         Log.d("INPUT_DATA", "Input Array: ${inputArray.contentDeepToString()}")
 
         val output = TFLiteHelper.runInference(inputArray, tfliteInterpreter)
+        Log.d("INPUT_ARRAY", inputArray.contentDeepToString())
 
         if (output != null) {
-            // Menampilkan hasil prediksi cluster
+            // Log raw output from model
             Log.d("MODEL_OUTPUT", "Raw Output: ${output.contentDeepToString()}")
 
+            // Find the index of the cluster with the highest probability
             val predictedCluster = output[0].withIndex().maxByOrNull { it.value }?.index ?: -1
             Log.d("PREDICTION", "Predicted Cluster: $predictedCluster")
+            Log.d("MODEL_OUTPUT", output?.contentDeepToString() ?: "No output")
 
-            val recommendedRecipes = getRecipesFromCsv()
+            if (predictedCluster != -1) {
+                val recommendedRecipes = getRecipesFromCsv()
 
-            if (recommendedRecipes.isEmpty()) {
-                Toast.makeText(requireContext(), "Recipe data is empty.", Toast.LENGTH_SHORT).show()
-                return
+                if (recommendedRecipes.isEmpty()) {
+                    Toast.makeText(requireContext(), "Recipe data is empty.", Toast.LENGTH_SHORT).show()
+                    return
+                }
+
+                // Filter recipes based on predicted cluster
+                val filteredRecipes = recommendedRecipes.filter {
+                    it["cluster"]?.toIntOrNull() == predictedCluster
+                }
+
+
+                if (filteredRecipes.isEmpty()) {
+                    Log.w("FILTERED_RECIPES", "No recipes found for cluster $predictedCluster.")
+                    Toast.makeText(requireContext(), "No recipes available for this cluster.", Toast.LENGTH_SHORT).show()
+                    return
+                }
+
+                // Organize recipes by meal time
+                val pagi = filteredRecipes.take(3) // Take first 3 for pagi
+                val siang = filteredRecipes.drop(3).take(3) // Next 3 for siang
+                val malam = filteredRecipes.drop(6).take(3) // Next 3 for malam
+
+                Log.d("RECOMMENDED_PAGI", pagi.joinToString(separator = "\n") { it.toString() })
+                Log.d("RECOMMENDED_SIANG", siang.joinToString(separator = "\n") { it.toString() })
+                Log.d("RECOMMENDED_MALAM", malam.joinToString(separator = "\n") { it.toString() })
+
+                // You can now display these recipes on the UI as needed (e.g., using RecyclerView or TextViews)
+            } else {
+                Log.e("PREDICTION_ERROR", "Invalid predicted cluster.")
             }
-
-            // Filter resep berdasarkan cluster
-            val filteredRecipes = recommendedRecipes.filter {
-                it["cluster"]?.toIntOrNull() == predictedCluster
-            }
-
-            if (filteredRecipes.isEmpty()) {
-                Log.w("FILTERED_RECIPES", "No recipes found for cluster $predictedCluster.")
-                Toast.makeText(requireContext(), "No recipes available for this cluster.", Toast.LENGTH_SHORT).show()
-                return
-            }
-
-            // Menampilkan resep yang difilter ke logcat
-            Log.d("FILTERED_RECIPES", "Filtered Recipes: $filteredRecipes")
-
-            // Menampilkan resep per waktu makan
-            val pagi = filteredRecipes.take(3)
-            val siang = filteredRecipes.drop(3).take(3)
-            val malam = filteredRecipes.drop(6).take(3)
-
-            Log.d("RECOMMENDED_PAGI", pagi.joinToString(separator = "\n") { it.toString() })
-            Log.d("RECOMMENDED_SIANG", siang.joinToString(separator = "\n") { it.toString() })
-            Log.d("RECOMMENDED_MALAM", malam.joinToString(separator = "\n") { it.toString() })
         } else {
             Log.e("TFLITE_ERROR", "Output is null. Something went wrong.")
         }

@@ -20,11 +20,11 @@
     <string name="desc_recommendation">Based on the personal data you entered, here are our food recommendations</string>
 
     <string-array name="target">
-        <item>1 Kg</item>
-        <item>2 Kg</item>
-        <item>3 Kg</item>
-        <item>4 Kg</item>
-        <item>5 Kg</item>
+        <item>-1 Kg</item>
+        <item>-2 Kg</item>
+        <item>-3 Kg</item>
+        <item>-4 Kg</item>
+        <item>-5 Kg</item>
     </string-array>
 
     <string-array name="gender">
