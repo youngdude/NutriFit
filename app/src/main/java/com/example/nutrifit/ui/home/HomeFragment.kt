@@ -1,3 +1,4 @@
+// HomeFragment.kt
 package com.example.nutrifit.ui.home
 
 import android.os.Bundle
@@ -104,7 +105,8 @@ class HomeFragment : Fragment() {
                     "nama_makanan" to record.get("nama_makanan"),
                     "kalori" to record.get("kalori"),
                     "jenis" to record.get("jenis"),
-                    "image" to record.get("image")
+                    "image" to record.get("image"),
+                    "cluster" to record.get("cluster") // Pastikan kolom cluster ada
                 )
             }
         } catch (e: Exception) {
@@ -113,6 +115,7 @@ class HomeFragment : Fragment() {
             emptyList()
         }
     }
+
 
     private fun processInputAndShowResults() {
         val weight = binding.fieldWeight.text.toString().toFloatOrNull()
@@ -126,11 +129,11 @@ class HomeFragment : Fragment() {
         }
 
         val activityLevel = when (binding.fieldActivity.text.toString()) {
-            "InActive" -> 1f
-            "Lightly Active" -> 2f
-            "Moderately Active" -> 3f
-            "Very Active" -> 4f
-            "Extra Active" -> 5f
+            "InActive" -> 1.2f
+            "Lightly Active" -> 1.375f
+            "Moderately Active" -> 1.55f
+            "Very Active" -> 1.725f
+            "Extra Active" -> 1.9f
             else -> null
         }
 
@@ -142,29 +145,48 @@ class HomeFragment : Fragment() {
         }
 
         val inputArray = arrayOf(floatArrayOf(weight, height, age.toFloat(), gender, activityLevel, target))
-        val output = TFLiteHelper.runInference(
-            inputArray,
-            TFLiteHelper.loadModel(requireContext(), "model.tflite")
-        )
+        Log.d("INPUT_DATA", "Input Array: ${inputArray.contentDeepToString()}")
+
+        val output = TFLiteHelper.runInference(inputArray, tfliteInterpreter)
+
         if (output != null) {
+            // Menampilkan hasil prediksi cluster
+            Log.d("MODEL_OUTPUT", "Raw Output: ${output.contentDeepToString()}")
+
+            val predictedCluster = output[0].withIndex().maxByOrNull { it.value }?.index ?: -1
+            Log.d("PREDICTION", "Predicted Cluster: $predictedCluster")
+
             val recommendedRecipes = getRecipesFromCsv()
-            if (recommendedRecipes.size < output[0].size) {
-                Toast.makeText(requireContext(), "Not enough recipes to match the model's output.", Toast.LENGTH_SHORT).show()
+
+            if (recommendedRecipes.isEmpty()) {
+                Toast.makeText(requireContext(), "Recipe data is empty.", Toast.LENGTH_SHORT).show()
                 return
             }
 
-            val results = output[0].mapIndexed { index, score ->
-                val recipe = recommendedRecipes.getOrNull(index)
-                Pair(score, recipe)
-            }.sortedByDescending { it.first }
-
-            results.forEachIndexed { index, (score, recipe) ->
-                val message = "Recipe ${index + 1}: Name=${recipe?.get("nama_makanan") ?: "Unknown"}, " +
-                        "Calories=${recipe?.get("kalori") ?: "Unknown"}, " +
-                        "Type=${recipe?.get("jenis") ?: "Unknown"}, " +
-                        "Image=${recipe?.get("image") ?: "No Image"} (Score: $score)"
-                Log.d("OUTPUT_GROUPED", message)
+            // Filter resep berdasarkan cluster
+            val filteredRecipes = recommendedRecipes.filter {
+                it["cluster"]?.toIntOrNull() == predictedCluster
             }
+
+            if (filteredRecipes.isEmpty()) {
+                Log.w("FILTERED_RECIPES", "No recipes found for cluster $predictedCluster.")
+                Toast.makeText(requireContext(), "No recipes available for this cluster.", Toast.LENGTH_SHORT).show()
+                return
+            }
+
+            // Menampilkan resep yang difilter ke logcat
+            Log.d("FILTERED_RECIPES", "Filtered Recipes: $filteredRecipes")
+
+            // Menampilkan resep per waktu makan
+            val pagi = filteredRecipes.take(3)
+            val siang = filteredRecipes.drop(3).take(3)
+            val malam = filteredRecipes.drop(6).take(3)
+
+            Log.d("RECOMMENDED_PAGI", pagi.joinToString(separator = "\n") { it.toString() })
+            Log.d("RECOMMENDED_SIANG", siang.joinToString(separator = "\n") { it.toString() })
+            Log.d("RECOMMENDED_MALAM", malam.joinToString(separator = "\n") { it.toString() })
+        } else {
+            Log.e("TFLITE_ERROR", "Output is null. Something went wrong.")
         }
     }
 
@@ -184,5 +206,4 @@ class HomeFragment : Fragment() {
             Log.d("CSV_TEST", message)
         }
     }
-
 }

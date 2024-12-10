@@ -30,13 +30,11 @@ object TFLiteHelper {
 
     fun runInference(input: Array<FloatArray>, interpreter: Interpreter?): Array<FloatArray>? {
         return try {
+            // Menyesuaikan ukuran output dengan jumlah output yang diberikan oleh model (9)
             val output = Array(1) { FloatArray(6) }
 
-            val randomizedInput = randomizeInput(input)
-
-            interpreter?.run(randomizedInput, output)
-
-            randomizeOutput(output)
+            // Melakukan inferensi dengan input data
+            interpreter?.run(input, output)
 
             output
         } catch (e: Exception) {
@@ -44,6 +42,7 @@ object TFLiteHelper {
             null
         }
     }
+
 
     private fun randomizeInput(input: Array<FloatArray>): Array<FloatArray> {
         return input.map { floatArray ->
