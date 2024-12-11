@@ -106,7 +106,7 @@ class HomeFragment : Fragment() {
                     "kalori" to record.get("kalori"),
                     "jenis" to record.get("jenis"),
                     "image" to record.get("image"),
-                    "cluster" to record.get("cluster") // Pastikan kolom cluster ada
+                    "cluster" to record.get("cluster")
                 )
             }
         } catch (e: Exception) {
@@ -144,7 +144,6 @@ class HomeFragment : Fragment() {
             return
         }
 
-        // Prepare input array in expected format
         val inputArray = arrayOf(floatArrayOf(weight, height, age.toFloat(), gender, activityLevel, target))
         Log.d("INPUT_DATA", "Input Array: ${inputArray.contentDeepToString()}")
 
@@ -152,27 +151,22 @@ class HomeFragment : Fragment() {
         Log.d("INPUT_ARRAY", inputArray.contentDeepToString())
 
         if (output != null) {
-            // Log raw output from model
             Log.d("MODEL_OUTPUT", "Raw Output: ${output.contentDeepToString()}")
 
-            // Find the index of the cluster with the highest probability
             val predictedCluster = output[0].withIndex().maxByOrNull { it.value }?.index ?: -1
             Log.d("PREDICTION", "Predicted Cluster: $predictedCluster")
             Log.d("MODEL_OUTPUT", output?.contentDeepToString() ?: "No output")
 
             if (predictedCluster != -1) {
                 val recommendedRecipes = getRecipesFromCsv()
-
                 if (recommendedRecipes.isEmpty()) {
                     Toast.makeText(requireContext(), "Recipe data is empty.", Toast.LENGTH_SHORT).show()
                     return
                 }
 
-                // Filter recipes based on predicted cluster
                 val filteredRecipes = recommendedRecipes.filter {
                     it["cluster"]?.toIntOrNull() == predictedCluster
-                }
-
+                }.toMutableList()
 
                 if (filteredRecipes.isEmpty()) {
                     Log.w("FILTERED_RECIPES", "No recipes found for cluster $predictedCluster.")
@@ -180,16 +174,24 @@ class HomeFragment : Fragment() {
                     return
                 }
 
-                // Organize recipes by meal time
-                val pagi = filteredRecipes.take(3) // Take first 3 for pagi
-                val siang = filteredRecipes.drop(3).take(3) // Next 3 for siang
-                val malam = filteredRecipes.drop(6).take(3) // Next 3 for malam
+                // Tambahkan ulang jika kurang dari 9
+                while (filteredRecipes.size < 9) {
+                    filteredRecipes.addAll(filteredRecipes)
+                }
 
+                // Acak dan ambil 9 resep
+                val shuffledRecipes = filteredRecipes.shuffled().take(9)
+
+                // Distribusi ke pagi, siang, malam
+                val pagi = shuffledRecipes.take(3)
+                val siang = shuffledRecipes.drop(3).take(3)
+                val malam = shuffledRecipes.drop(6).take(3)
+
+                // Log hasil
                 Log.d("RECOMMENDED_PAGI", pagi.joinToString(separator = "\n") { it.toString() })
                 Log.d("RECOMMENDED_SIANG", siang.joinToString(separator = "\n") { it.toString() })
                 Log.d("RECOMMENDED_MALAM", malam.joinToString(separator = "\n") { it.toString() })
 
-                // You can now display these recipes on the UI as needed (e.g., using RecyclerView or TextViews)
             } else {
                 Log.e("PREDICTION_ERROR", "Invalid predicted cluster.")
             }
