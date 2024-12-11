@@ -148,50 +148,40 @@ class HomeFragment : Fragment() {
         Log.d("INPUT_DATA", "Input Array: ${inputArray.contentDeepToString()}")
 
         val output = TFLiteHelper.runInference(inputArray, tfliteInterpreter)
-        Log.d("INPUT_ARRAY", inputArray.contentDeepToString())
-
         if (output != null) {
-            Log.d("MODEL_OUTPUT", "Raw Output: ${output.contentDeepToString()}")
-
             val predictedCluster = output[0].withIndex().maxByOrNull { it.value }?.index ?: -1
             Log.d("PREDICTION", "Predicted Cluster: $predictedCluster")
-            Log.d("MODEL_OUTPUT", output?.contentDeepToString() ?: "No output")
 
             if (predictedCluster != -1) {
-                val recommendedRecipes = getRecipesFromCsv()
-                if (recommendedRecipes.isEmpty()) {
+                val allRecipes = getRecipesFromCsv()
+                if (allRecipes.isEmpty()) {
                     Toast.makeText(requireContext(), "Recipe data is empty.", Toast.LENGTH_SHORT).show()
                     return
                 }
 
-                val filteredRecipes = recommendedRecipes.filter {
-                    it["cluster"]?.toIntOrNull() == predictedCluster
-                }.toMutableList()
+                val clusterRecipes = allRecipes.filter { it["cluster"]?.toIntOrNull() == predictedCluster }
+                var filteredRecipes = clusterRecipes.distinctBy { it["nama_makanan"] }.toMutableList()
 
-                if (filteredRecipes.isEmpty()) {
-                    Log.w("FILTERED_RECIPES", "No recipes found for cluster $predictedCluster.")
-                    Toast.makeText(requireContext(), "No recipes available for this cluster.", Toast.LENGTH_SHORT).show()
-                    return
+                // Jika kurang dari 9, tambahkan dari cluster lain
+                if (filteredRecipes.size < 9) {
+                    val otherClusters = allRecipes.filter { it["cluster"]?.toIntOrNull() != predictedCluster }
+                        .distinctBy { it["nama_makanan"] }
+                    val additionalRecipes = otherClusters.shuffled().take(9 - filteredRecipes.size)
+                    filteredRecipes.addAll(additionalRecipes)
                 }
 
-                // Tambahkan ulang jika kurang dari 9
-                while (filteredRecipes.size < 9) {
-                    filteredRecipes.addAll(filteredRecipes)
-                }
-
-                // Acak dan ambil 9 resep
-                val shuffledRecipes = filteredRecipes.shuffled().take(9)
+                // Pastikan jumlah final adalah 9 resep
+                filteredRecipes = filteredRecipes.take(9).toMutableList()
 
                 // Distribusi ke pagi, siang, malam
-                val pagi = shuffledRecipes.take(3)
-                val siang = shuffledRecipes.drop(3).take(3)
-                val malam = shuffledRecipes.drop(6).take(3)
+                val pagi = filteredRecipes.take(3)
+                val siang = filteredRecipes.drop(3).take(3)
+                val malam = filteredRecipes.drop(6).take(3)
 
                 // Log hasil
                 Log.d("RECOMMENDED_PAGI", pagi.joinToString(separator = "\n") { it.toString() })
                 Log.d("RECOMMENDED_SIANG", siang.joinToString(separator = "\n") { it.toString() })
                 Log.d("RECOMMENDED_MALAM", malam.joinToString(separator = "\n") { it.toString() })
-
             } else {
                 Log.e("PREDICTION_ERROR", "Invalid predicted cluster.")
             }
@@ -199,7 +189,6 @@ class HomeFragment : Fragment() {
             Log.e("TFLITE_ERROR", "Output is null. Something went wrong.")
         }
     }
-
 
     private fun testCsvReading() {
         val recipes = getRecipesFromCsv()

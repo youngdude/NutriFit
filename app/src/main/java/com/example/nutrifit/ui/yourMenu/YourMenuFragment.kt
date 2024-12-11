@@ -37,12 +37,6 @@ class YourMenuFragment : Fragment() {
 
         val yourMenus = getMenuData() // Get data from CSV or your source
 
-        yourMenuAdapter = YourMenuAdapter(yourMenus)
-        binding.recyclerviewYourMenu.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = yourMenuAdapter
-        }
-
         view.postDelayed({
             binding.tvProgressbar.visibility = View.GONE
         }, 1000)

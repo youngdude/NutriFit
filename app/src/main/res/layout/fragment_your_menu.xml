@@ -54,11 +54,58 @@
             android:layout_gravity="center"
             android:visibility="gone" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview_your_menu"
+        <TextView
+            android:id="@+id/tv_breakfast"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
+            android:text="Breakfast Menu"
+            android:textColor="@color/secondary"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/poppins_bold"
+            android:layout_marginTop="10dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_breakfast"
+            android:layout_width="match_parent"
+            android:layout_height="510dp"
+            android:layout_marginTop="2dp"
+            tools:listitem="@layout/your_menu_item" />
+
+        <TextView
+            android:id="@+id/tv_lunch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lunch Menu"
+            android:textColor="@color/secondary"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/poppins_bold"
+            android:layout_marginTop="10dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_lunch"
+            android:layout_width="match_parent"
+            android:layout_height="510dp"
+            android:layout_marginTop="2dp"
+            tools:listitem="@layout/your_menu_item" />
+
+        <TextView
+            android:id="@+id/tv_dinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Dinner Menu"
+            android:textColor="@color/secondary"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/poppins_bold"
+            android:layout_marginTop="10dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_dinner"
+            android:layout_width="match_parent"
+            android:layout_height="510dp"
+            android:layout_marginTop="2dp"
             tools:listitem="@layout/your_menu_item" />
 
     </LinearLayout>
