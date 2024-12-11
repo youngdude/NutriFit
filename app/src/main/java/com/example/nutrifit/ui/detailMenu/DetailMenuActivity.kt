@@ -1,21 +1,38 @@
 package com.example.nutrifit.ui.detailMenu
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.example.nutrifit.R
+import com.bumptech.glide.Glide
+import com.example.nutrifit.databinding.ActivityDetailMenuBinding
 
 class DetailMenuActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityDetailMenuBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_detail_menu)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        binding = ActivityDetailMenuBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        // Mendapatkan data dari Intent
+        val imageUrl = intent.getStringExtra("image")
+        val title = intent.getStringExtra("nama_makanan")
+        val calorie = intent.getStringExtra("kalori")
+        val recipe = intent.getStringExtra("bahan")
+        val step = intent.getStringExtra("langkah")
+
+        // Mengisi data ke View
+        binding.tvTitle.text = title
+        binding.tvCalorie.text = "$calorie kcal/Serving"
+        binding.tvRecipe.text = recipe
+        binding.tvStep.text = step
+        Glide.with(this)
+            .load(imageUrl)
+            .into(binding.ivPhoto)
+
+        binding.btnBack.setOnClickListener {
+            finish()
         }
+
     }
 }

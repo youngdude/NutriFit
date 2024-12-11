@@ -1,117 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.detailMenu.DetailMenuActivity">
 
-    <ImageView
-        android:id="@+id/iv_photo"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:contentDescription="@string/detail_photo"
-        android:scaleType="centerCrop"
-        android:src="@drawable/default_food"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_label_title"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins"
-        android:text="@string/detail_title"
-        android:textSize="14sp"
-        android:layout_marginTop="20dp"
-        android:paddingHorizontal="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_photo" />
+        android:orientation="vertical"
+        android:paddingBottom="20dp">
 
-    <TextView
-        android:id="@+id/tv_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_bold"
-        android:text="@string/detail_title"
-        android:layout_marginTop="5dp"
-        android:textSize="18sp"
-        android:paddingHorizontal="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_label_title" />
+        <FrameLayout
+            android:id="@+id/frame"
+            android:layout_width="match_parent"
+            android:layout_height="250dp">
 
-    <TextView
-        android:id="@+id/tv_label_calorie"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins"
-        android:text="@string/detail_calorie"
-        android:textSize="14sp"
-        android:layout_marginTop="20dp"
-        android:paddingHorizontal="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+            <ImageView
+                android:id="@+id/iv_photo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/detail_photo"
+                android:scaleType="centerCrop"
+                android:src="@drawable/default_food" />
 
-    <TextView
-        android:id="@+id/tv_calorie"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_bold"
-        android:text="@string/detail_calorie"
-        android:layout_marginTop="5dp"
-        android:textSize="18sp"
-        android:paddingHorizontal="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_label_calorie" />
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|top"
+                android:layout_margin="16dp"
+                android:background="@drawable/rounded_btn"
+                android:contentDescription="@string/back"
+                android:padding="5dp"
+                android:src="@drawable/ic_back" />
+        </FrameLayout>
 
-    <TextView
-        android:id="@+id/tv_label_recipe"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_bold"
-        android:text="@string/detail_recipe"
-        android:textSize="14sp"
-        android:layout_marginTop="30dp"
-        android:paddingHorizontal="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_calorie" />
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/frame"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/poppins_bold"
+            android:paddingHorizontal="20dp"
+            android:text="@string/detail_title"
+            android:textAllCaps="true"
+            android:textColor="@color/secondary"
+            android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/tv_recipe"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins"
-        android:text="@string/detail_recipe"
-        android:textSize="14sp"
-        android:layout_marginTop="5dp"
-        android:paddingHorizontal="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_label_recipe" />
+        <TextView
+            android:id="@+id/tv_calorie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_title"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/poppins"
+            android:paddingHorizontal="20dp"
+            android:text="@string/detail_calorie"
+            android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/tv_label_step"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_bold"
-        android:text="@string/detail_step"
-        android:textSize="14sp"
-        android:layout_marginTop="30dp"
-        android:paddingHorizontal="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_recipe" />
+        <TextView
+            android:id="@+id/tv_label_recipe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_calorie"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/poppins_bold"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="5dp"
+            android:text="@string/detail_recipe"
+            android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/tv_step"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins"
-        android:text="@string/detail_step"
-        android:textSize="14sp"
-        android:layout_marginTop="5dp"
-        android:paddingHorizontal="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_label_step" />
+        <TextView
+            android:id="@+id/tv_recipe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_label_recipe"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/poppins"
+            android:paddingHorizontal="20dp"
+            android:text="@string/detail_recipe"
+            android:textSize="14sp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/tv_label_step"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_recipe"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/poppins_bold"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="5dp"
+            android:text="@string/detail_step"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_step"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_label_step"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/poppins"
+            android:paddingHorizontal="20dp"
+            android:text="@string/detail_step"
+            android:textSize="14sp" />
+    </RelativeLayout>
+</ScrollView>

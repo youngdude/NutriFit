@@ -5,8 +5,12 @@ data class YourMenu(
     val items: List<MenuItem>
 ) {
     data class MenuItem(
+        val imageUrl: String,
         val title: String,
         val type: String,
-        val imageUrl: String
+        val calorie: String,
+        val recipe: List<String>,
+        val quantities: List<String>,
+        val step: String?
     )
 }

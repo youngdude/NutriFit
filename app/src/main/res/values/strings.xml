@@ -75,6 +75,7 @@
     <string name="detail_calorie">Calorie Count</string>
     <string name="detail_recipe">Recipe</string>
     <string name="detail_step">Steps to make</string>
+    <string name="back">Back</string>
 
     // setting
     <string name="desc_setting">Adjust your preferences or application configuration</string>

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.nutrifit.R
 import com.example.nutrifit.databinding.FragmentHomeBinding
@@ -198,7 +199,13 @@ class HomeFragment : Fragment() {
                     putStringArrayList("malam", malam)
                 }
 
-                findNavController().navigate(R.id.action_homeFragment_to_yourMenuFragment, bundle)
+                findNavController().navigate(
+                    R.id.action_homeFragment_to_yourMenuFragment,
+                    bundle,
+                    NavOptions.Builder()
+                        .setPopUpTo(R.id.homeFragment, false)
+                        .build()
+                )
 
             } else {
                 Log.e("PREDICTION_ERROR", "Invalid predicted cluster.")

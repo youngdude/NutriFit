@@ -77,10 +77,39 @@ class YourMenuFragment : Fragment() {
         val csvParser = CSVParser(reader, CSVFormat.DEFAULT.withHeader())
 
         csvParser.forEach { record ->
+            val imageUrl = record.get("image")
             val title = record.get("nama_makanan")
             val type = record.get("jenis")
-            val imageUrl = record.get("image")
-            menuItems.add(YourMenu.MenuItem(title, type, imageUrl))
+            val calorie = record.get("kalori")
+            val step = record.get("cara_masak")
+
+            val ingredients = mutableListOf<String>()
+            for (i in 1..15) {
+                val ingredient = record.get("bahan$i")
+                if (ingredient.isNotEmpty()) {
+                    ingredients.add(ingredient)
+                }
+            }
+
+            val quantities = mutableListOf<String>()
+            for (i in 1..15) {
+                val quantity = record.get("jumlah$i")
+                if (quantity.isNotEmpty()) {
+                    quantities.add(quantity)
+                }
+            }
+
+            menuItems.add(
+                YourMenu.MenuItem(
+                    imageUrl,
+                    title,
+                    type,
+                    calorie,
+                    ingredients,
+                    quantities,
+                    step
+                )
+            )
         }
 
         csvParser.close()

@@ -25,5 +25,5 @@
         android:id="@+id/yourMenuFragment"
         android:name="com.example.nutrifit.ui.yourMenu.YourMenuFragment"
         android:label="@string/title_your_menu"
-        tools:layout="@layout/fragment_your_menu"></fragment>
+        tools:layout="@layout/fragment_your_menu" />
 </navigation>
