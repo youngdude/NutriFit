@@ -32,11 +32,6 @@
             android:text="@string/desc_menu"
             android:fontFamily="@font/poppins"/>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/primary"/>
-
         <ProgressBar
             android:id="@+id/tv_progressbar"
             android:layout_width="wrap_content"
@@ -58,54 +53,59 @@
             android:id="@+id/tv_breakfast"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Breakfast Menu"
-            android:textColor="@color/secondary"
-            android:textSize="22sp"
-            android:textStyle="bold"
+            android:layout_marginBottom="10dp"
+            android:background="@color/secondary"
             android:fontFamily="@font/poppins_bold"
-            android:layout_marginTop="10dp" />
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="2dp"
+            android:text="@string/breakfast"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_breakfast"
             android:layout_width="match_parent"
-            android:layout_height="510dp"
-            android:layout_marginTop="2dp"
+            android:layout_height="wrap_content"
             tools:listitem="@layout/your_menu_item" />
 
         <TextView
             android:id="@+id/tv_lunch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Lunch Menu"
-            android:textColor="@color/secondary"
-            android:textSize="22sp"
-            android:textStyle="bold"
+            android:layout_marginBottom="10dp"
+            android:background="@color/secondary"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="2dp"
+            android:text="@string/lunch"
+            android:textColor="@color/white"
+            android:textSize="16sp"
             android:fontFamily="@font/poppins_bold"
             android:layout_marginTop="10dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_lunch"
             android:layout_width="match_parent"
-            android:layout_height="510dp"
-            android:layout_marginTop="2dp"
+            android:layout_height="wrap_content"
             tools:listitem="@layout/your_menu_item" />
 
         <TextView
             android:id="@+id/tv_dinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Dinner Menu"
-            android:textColor="@color/secondary"
-            android:textSize="22sp"
-            android:textStyle="bold"
+            android:layout_marginBottom="10dp"
+            android:background="@color/secondary"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="2dp"
+            android:text="@string/dinner"
+            android:textColor="@color/white"
+            android:textSize="16sp"
             android:fontFamily="@font/poppins_bold"
             android:layout_marginTop="10dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_dinner"
             android:layout_width="match_parent"
-            android:layout_height="510dp"
-            android:layout_marginTop="2dp"
+            android:layout_height="wrap_content"
             tools:listitem="@layout/your_menu_item" />
 
     </LinearLayout>

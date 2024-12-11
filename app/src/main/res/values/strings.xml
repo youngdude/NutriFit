@@ -64,6 +64,11 @@
     <string name="item_type">Type Menu</string>
     <string name="message">No recommendation available.</string>
 
+    // category
+    <string name="breakfast">Breakfast Menu</string>
+    <string name="lunch">Lunch Menu</string>
+    <string name="dinner">Dinner Menu</string>
+
     // detail menu
     <string name="detail_photo">Image Food</string>
     <string name="detail_title">Food Name</string>

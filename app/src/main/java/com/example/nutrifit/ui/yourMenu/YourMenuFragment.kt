@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.nutrifit.R
 import com.example.nutrifit.adapter.YourMenuAdapter
 import com.example.nutrifit.data.YourMenu
 import com.example.nutrifit.databinding.FragmentYourMenuBinding
@@ -19,7 +18,9 @@ class YourMenuFragment : Fragment() {
     private var _binding: FragmentYourMenuBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var yourMenuAdapter: YourMenuAdapter
+    private lateinit var yourMenuAdapterBreakfast: YourMenuAdapter
+    private lateinit var yourMenuAdapterLunch: YourMenuAdapter
+    private lateinit var yourMenuAdapterDinner: YourMenuAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,38 +35,56 @@ class YourMenuFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.tvProgressbar.visibility = View.VISIBLE
+        setupRecyclerViews()
 
-        val yourMenus = getMenuData() // Get data from CSV or your source
+        val allMenuItems = loadMenuDataFromCsv()
 
-        view.postDelayed({
-            binding.tvProgressbar.visibility = View.GONE
-        }, 1000)
+        val menuLookup = allMenuItems.associateBy { it.title }
+
+        val pagi = arguments?.getStringArrayList("pagi")
+        val siang = arguments?.getStringArrayList("siang")
+        val malam = arguments?.getStringArrayList("malam")
+
+        val breakfastItems = pagi?.mapNotNull { menuLookup[it] } ?: emptyList()
+        val lunchItems = siang?.mapNotNull { menuLookup[it] } ?: emptyList()
+        val dinnerItems = malam?.mapNotNull { menuLookup[it] } ?: emptyList()
+
+        yourMenuAdapterBreakfast.updateData(breakfastItems)
+        yourMenuAdapterLunch.updateData(lunchItems)
+        yourMenuAdapterDinner.updateData(dinnerItems)
+
+        binding.tvProgressbar.visibility = View.GONE
     }
 
-    private fun getMenuData(): List<YourMenu> {
-        val menuList = mutableListOf<YourMenu>()
-        try {
-            val csvInputStream = requireContext().assets.open("menu.csv")
-            val reader = InputStreamReader(csvInputStream)
-            val csvParser = CSVParser(reader, CSVFormat.DEFAULT.withHeader())
+    private fun setupRecyclerViews() {
+        yourMenuAdapterBreakfast = YourMenuAdapter(emptyList())
+        yourMenuAdapterLunch = YourMenuAdapter(emptyList())
+        yourMenuAdapterDinner = YourMenuAdapter(emptyList())
 
-            val groupedMenuItems = csvParser.records.groupBy { it.get("category") }
+        binding.rvBreakfast.layoutManager = LinearLayoutManager(context)
+        binding.rvLunch.layoutManager = LinearLayoutManager(context)
+        binding.rvDinner.layoutManager = LinearLayoutManager(context)
 
-            groupedMenuItems.forEach { (category, records) ->
-                val menuItems = records.map {
-                    YourMenu.MenuItem(
-                        name = it.get("name"),
-                        description = it.get("description"),
-                        imageRes = R.drawable.default_food // Or map to a real image resource
-                    )
-                }
-                menuList.add(YourMenu(category, menuItems))
-            }
+        binding.rvBreakfast.adapter = yourMenuAdapterBreakfast
+        binding.rvLunch.adapter = yourMenuAdapterLunch
+        binding.rvDinner.adapter = yourMenuAdapterDinner
+    }
 
-        } catch (e: Exception) {
-            e.printStackTrace()
+    private fun loadMenuDataFromCsv(): List<YourMenu.MenuItem> {
+        val menuItems = mutableListOf<YourMenu.MenuItem>()
+        val inputStream = requireContext().assets.open("resep.csv")
+        val reader = InputStreamReader(inputStream)
+        val csvParser = CSVParser(reader, CSVFormat.DEFAULT.withHeader())
+
+        csvParser.forEach { record ->
+            val title = record.get("nama_makanan")
+            val type = record.get("jenis")
+            val imageUrl = record.get("image")
+            menuItems.add(YourMenu.MenuItem(title, type, imageUrl))
         }
-        return menuList
+
+        csvParser.close()
+        return menuItems
     }
 
     override fun onDestroyView() {

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.nutrifit.R
 import com.example.nutrifit.databinding.FragmentHomeBinding
 import com.example.nutrifit.utils.TFLiteHelper
@@ -148,40 +149,57 @@ class HomeFragment : Fragment() {
         Log.d("INPUT_DATA", "Input Array: ${inputArray.contentDeepToString()}")
 
         val output = TFLiteHelper.runInference(inputArray, tfliteInterpreter)
+        Log.d("INPUT_ARRAY", inputArray.contentDeepToString())
+
         if (output != null) {
+            Log.d("MODEL_OUTPUT", "Raw Output: ${output.contentDeepToString()}")
+
             val predictedCluster = output[0].withIndex().maxByOrNull { it.value }?.index ?: -1
             Log.d("PREDICTION", "Predicted Cluster: $predictedCluster")
+            Log.d("MODEL_OUTPUT", output?.contentDeepToString() ?: "No output")
 
             if (predictedCluster != -1) {
-                val allRecipes = getRecipesFromCsv()
-                if (allRecipes.isEmpty()) {
+                val recommendedRecipes = getRecipesFromCsv()
+                if (recommendedRecipes.isEmpty()) {
                     Toast.makeText(requireContext(), "Recipe data is empty.", Toast.LENGTH_SHORT).show()
                     return
                 }
 
-                val clusterRecipes = allRecipes.filter { it["cluster"]?.toIntOrNull() == predictedCluster }
-                var filteredRecipes = clusterRecipes.distinctBy { it["nama_makanan"] }.toMutableList()
+                val filteredRecipes = recommendedRecipes.filter {
+                    it["cluster"]?.toIntOrNull() == predictedCluster
+                }.toMutableList()
 
-                // Jika kurang dari 9, tambahkan dari cluster lain
-                if (filteredRecipes.size < 9) {
-                    val otherClusters = allRecipes.filter { it["cluster"]?.toIntOrNull() != predictedCluster }
-                        .distinctBy { it["nama_makanan"] }
-                    val additionalRecipes = otherClusters.shuffled().take(9 - filteredRecipes.size)
-                    filteredRecipes.addAll(additionalRecipes)
+                if (filteredRecipes.isEmpty()) {
+                    Log.w("FILTERED_RECIPES", "No recipes found for cluster $predictedCluster.")
+                    Toast.makeText(
+                        requireContext(),
+                        "No recipes available for this cluster.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return
                 }
 
-                // Pastikan jumlah final adalah 9 resep
-                filteredRecipes = filteredRecipes.take(9).toMutableList()
+                while (filteredRecipes.size < 6) {
+                    filteredRecipes.addAll(filteredRecipes)
+                }
 
-                // Distribusi ke pagi, siang, malam
-                val pagi = filteredRecipes.take(3)
-                val siang = filteredRecipes.drop(3).take(3)
-                val malam = filteredRecipes.drop(6).take(3)
+                // Acak dan ambil 6 resep
+                val shuffledRecipes = filteredRecipes.shuffled().take(6)
+                val pagi =
+                    ArrayList(shuffledRecipes.take(2).map { it["nama_makanan"] ?: "Unknown" })
+                val siang = ArrayList(
+                    shuffledRecipes.drop(2).take(2).map { it["nama_makanan"] ?: "Unknown" })
+                val malam = ArrayList(
+                    shuffledRecipes.drop(4).take(2).map { it["nama_makanan"] ?: "Unknown" })
 
-                // Log hasil
-                Log.d("RECOMMENDED_PAGI", pagi.joinToString(separator = "\n") { it.toString() })
-                Log.d("RECOMMENDED_SIANG", siang.joinToString(separator = "\n") { it.toString() })
-                Log.d("RECOMMENDED_MALAM", malam.joinToString(separator = "\n") { it.toString() })
+                val bundle = Bundle().apply {
+                    putStringArrayList("pagi", pagi)
+                    putStringArrayList("siang", siang)
+                    putStringArrayList("malam", malam)
+                }
+
+                findNavController().navigate(R.id.action_homeFragment_to_yourMenuFragment, bundle)
+
             } else {
                 Log.e("PREDICTION_ERROR", "Invalid predicted cluster.")
             }
