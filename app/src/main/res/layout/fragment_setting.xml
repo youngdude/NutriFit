@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/secondary"
             android:fontFamily="@font/poppins_bold"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:layout_marginTop="10dp"
             tools:ignore="RelativeOverlap" />
 
@@ -29,7 +29,7 @@
             android:text="@string/desc_setting"
             android:textColor="@color/secondary"
             android:fontFamily="@font/poppins"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="5dp"/>
 
@@ -70,7 +70,8 @@
                     android:layout_toEndOf="@+id/ic_theme"
                     android:fontFamily="@font/poppins_bold"
                     android:text="@string/theme"
-                    android:textSize="16sp"
+                    android:layout_centerInParent="true"
+                    android:textSize="14sp"
                     tools:ignore="RelativeOverlap" />
 
                 <Switch
@@ -114,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_bold"
                     android:text="@string/logout"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
             </LinearLayout>
 

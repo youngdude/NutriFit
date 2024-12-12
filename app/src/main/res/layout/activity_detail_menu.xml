@@ -59,7 +59,7 @@
             android:fontFamily="@font/poppins"
             android:paddingHorizontal="20dp"
             android:text="@string/detail_calorie"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tv_label_recipe"
@@ -71,7 +71,7 @@
             android:paddingHorizontal="20dp"
             android:paddingVertical="5dp"
             android:text="@string/detail_recipe"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_recipe"
@@ -82,7 +82,7 @@
             android:fontFamily="@font/poppins"
             android:paddingHorizontal="20dp"
             android:text="@string/detail_recipe"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tv_label_step"
@@ -94,7 +94,7 @@
             android:paddingHorizontal="20dp"
             android:paddingVertical="5dp"
             android:text="@string/detail_step"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_step"
@@ -105,6 +105,6 @@
             android:fontFamily="@font/poppins"
             android:paddingHorizontal="20dp"
             android:text="@string/detail_step"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
     </RelativeLayout>
 </ScrollView>

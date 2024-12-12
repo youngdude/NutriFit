@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:text="@string/heading_menu"
             android:textColor="@color/secondary"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:fontFamily="@font/poppins_bold"
             android:layout_marginTop="10dp" />
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="20dp"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:text="@string/desc_menu"
             android:fontFamily="@font/poppins"/>
 
@@ -60,7 +60,7 @@
             android:paddingVertical="5dp"
             android:text="@string/breakfast"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_breakfast"
@@ -78,7 +78,7 @@
             android:layout_marginTop="15dp"
             android:text="@string/lunch"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:fontFamily="@font/poppins_bold"
             android:paddingVertical="5dp" />
 
@@ -98,7 +98,7 @@
             android:layout_marginTop="15dp"
             android:text="@string/dinner"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:fontFamily="@font/poppins_bold"
             android:paddingVertical="5dp" />
 
