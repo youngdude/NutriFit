@@ -38,15 +38,4 @@ object ApiClient {
 
         return retrofit.create(ApiService::class.java)
     }
-//    private val okHttpClient = OkHttpClient.Builder()
-//        .addInterceptor(loggingInterceptor)
-//        .build()
-//
-//    private val retrofit = Retrofit.Builder()
-//        .baseUrl(BASE_URL)
-//        .client(okHttpClient)
-//        .addConverterFactory(GsonConverterFactory.create())
-//        .build()
-//
-//    val apiService: ApiService = retrofit.create(ApiService::class.java)
 }

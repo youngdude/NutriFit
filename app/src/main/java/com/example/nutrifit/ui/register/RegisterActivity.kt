@@ -3,13 +3,10 @@ package com.example.nutrifit.ui.register
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.example.nutrifit.MainActivity
 import com.example.nutrifit.databinding.ActivityRegisterBinding
 import com.example.nutrifit.retrofit.api.ApiClient
 import com.example.nutrifit.retrofit.model.RegisterRequest

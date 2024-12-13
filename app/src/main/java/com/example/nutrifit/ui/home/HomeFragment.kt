@@ -1,4 +1,4 @@
-// HomeFragment.kt
+
 package com.example.nutrifit.ui.home
 
 import android.os.Bundle

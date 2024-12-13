@@ -14,14 +14,12 @@ class DetailMenuActivity : AppCompatActivity() {
         binding = ActivityDetailMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Mendapatkan data dari Intent
         val imageUrl = intent.getStringExtra("image")
         val title = intent.getStringExtra("nama_makanan")
         val calorie = intent.getStringExtra("kalori")
         val recipe = intent.getStringExtra("bahan")
         val step = intent.getStringExtra("langkah")
 
-        // Mengisi data ke View
         binding.tvTitle.text = title
         binding.tvCalorie.text = "$calorie kcal/Serving"
         binding.tvRecipe.text = recipe
