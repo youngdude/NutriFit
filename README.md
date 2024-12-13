@@ -15,13 +15,15 @@ NutriFit is a personalized nutrition management app designed to simplify calorie
 1. Create ML model
 2. Convert ML model to tflite
 3. Create database for user to register and login
-4. Create android project using android studio
-5. Import library that we needed
-6. Designing user interface
-7. Connecting firebase from cloud into Android Studio for Login and Register user
-8. Deploy the ML model directly into Android Studio ( model.tflite )
-9. Deploy some assets into Android Studio ( resep.csv )
-10. Using tflite library to get the data clustering and resep.csv to get the output from model
+4. Create API for user to register and login
+5. Deploy the API with Google Cloud App Engine
+6. Create android project using android studio
+7. Import library that we needed
+8. Designing user interface
+9. Connecting firebase from cloud into Android Studio for Login and Register user
+10. Deploy the ML model directly into Android Studio ( model.tflite )
+11. Deploy some assets into Android Studio ( resep.csv )
+12. Using tflite library to get the data clustering and resep.csv to get the output from model
 
 ## Android
 
@@ -73,3 +75,24 @@ The steps to create an ML model
 1. **Clone the Repository**  
    ```bash
    git clone https://github.com/youngdude/NutriFit
+
+## Cloud Computing
+
+Service Used :
+
+- Google Cloud Platform
+- Firebase
+- Postman
+
+How to deploy the API on your GCP 
+1. Clone this branch using this command on cloud shell :
+   ```bash
+   git clone https://github.com/BagusTresna/NutriFit
+2. Search for App Engine services on GCP
+3. Create the Application
+4. Open cloud editor
+5. Go to NutriFit directory
+6. Run this command on cloud shell:
+   ```bash
+   gcloud app deploy
+7. Type "Y" to continue

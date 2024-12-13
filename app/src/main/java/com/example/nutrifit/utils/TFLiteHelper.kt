@@ -31,7 +31,6 @@ object TFLiteHelper {
     fun runInference(input: Array<FloatArray>, interpreter: Interpreter?): Array<FloatArray>? {
         return try {
             val output = Array(1) { FloatArray(5) }
-
             interpreter?.run(input, output)
 
             output

@@ -203,7 +203,7 @@ class HomeFragment : Fragment() {
                     R.id.action_homeFragment_to_yourMenuFragment,
                     bundle,
                     NavOptions.Builder()
-                        .setPopUpTo(R.id.homeFragment, true)
+                        .setPopUpTo(R.id.homeFragment, false)
                         .build()
                 )
 
